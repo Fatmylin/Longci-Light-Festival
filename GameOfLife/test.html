@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>康威生命遊戲</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+
+      .background-circle {
+        background-image: url(./bg-circle-final.png);
+        background-size: 100%;
+        background-position: center;
+        background-repeat: no-repeat; /* or 'repeat', 'repeat-x', 'repeat-y' */
+      }
+
+      #board {
+        top: 8px;
+        left: 3px;
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(9, 55px);
+        grid-template-rows: repeat(8, 58px);
+        gap: 1px;
+        border-radius: 100%;
+        overflow: hidden;
+      }
+
+      #board2 {
+        display: grid;
+        grid-template-columns: repeat(15, 45px);
+        grid-template-rows: repeat(15, 45px);
+        gap: 1px;
+        border-radius: 100%;
+        overflow: hidden;
+        position: absolute
+      }
+
+      .circle-container {
+        display: flex; /* Enables flexbox */
+        justify-content: center; /* Centers items horizontally */
+        align-items: center; /* Centers items vertically */
+        position: relative; /* Positions children relative to the container */
+      }
+
+      .cell {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        -webkit-transition: background-color 1000ms linear;
+        -ms-transition: background-color 1000ms linear;
+        transition: background-color 1000ms linear;
+        background-size: cover; /* or 'contain', 'auto', specific size (e.g., '100px 100px') */
+        background-position: center; /* or 'top', 'bottom', 'left', 'right', etc. */
+        background-repeat: no-repeat; /* or 'repeat', 'repeat-x', 'repeat-y' */
+        /* Start the shake animation and make the animation last for 0.5 seconds */
+        animation: breathing 1.5s;
+
+        /* When the animation is finished, start again */
+        animation-iteration-count: infinite;
+        /* 讓細胞呈現圓形 */
+      }
+
+      @keyframes breathing {
+        0% {
+          -webkit-transform: scale(0.9);
+          -ms-transform: scale(0.9);
+          transform: scale(0.9);
+        }
+
+        25% {
+          -webkit-transform: scale(0.95);
+          -ms-transform: scale(0.95);
+          transform: scale(0.95);
+        }
+
+        60% {
+          -webkit-transform: scale(0.9);
+          -ms-transform: scale(0.9);
+          transform: scale(0.9);
+        }
+
+        100% {
+          -webkit-transform: scale(0.9);
+          -ms-transform: scale(0.9);
+          transform: scale(0.9);
+        }
+      }
+
+
+      /* 顏色數組 */
+      .alive-0 {
+        background-image: url(./pic-cell-pink.png);
+        -webkit-transition: background-color 1000ms linear;
+        -ms-transition: background-color 1000ms linear;
+        transition: background-color 1000ms linear;
+        /* 粉紅色 */
+      }
+
+      .alive-1 {
+        background-image: url(./pic-cell-blue.png);
+        -webkit-transition: background-color 1000ms linear;
+        -ms-transition: background-color 1000ms linear;
+        transition: background-color 1000ms linear;
+        /* 藍色 */
+      }
+
+      .alive-2 {
+        background-image: url(./pic-cell-red.png);
+        -webkit-transition: background-color 1000ms linear;
+        -ms-transition: background-color 1000ms linear;
+        transition: background-color 1000ms linear;
+        /* 紅色 */
+      }
+
+      .alive-3 {
+        background-image: url(./pic-cell-green.png);
+        -webkit-transition: background-color 1000ms linear;
+        -ms-transition: background-color 1000ms linear;
+        transition: background-color 1000ms linear;
+        /* 綠色 */
+      }
+
+      .button-container {
+        margin-top: 100px;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <div class="circle-container">
+        <div id="board2" class="background-circle"></div>
+        <div id="board"></div>
+      </div>
+      <div class="button-container">
+        <button onclick="startGame()">開始遊戲</button>
+        <button onclick="pauseGame()">暫停遊戲</button>
+        <button onclick="clearBoard()">清空棋盤</button>
+        <label for="speed">遊戲速度:</label>
+        <input type="range" id="speed" min="50" max="1000" step="50" value="100" onchange="changeSpeed(this.value)">
+      </div>
+    </div>
+
+    <script>
+      const rows = 9;
+      const cols = 8;
+      const board = [];
+      let gameStart = false;
+      let interval;
+      let gameSpeed = 100; // 初始遊戲速度
+
+      // 顏色數組，對應不同的顏色
+      const aliveColors = ['alive-0', 'alive-1', 'alive-2', 'alive-3', 'alive-4'];
+      const aliveColorsColorCode = ['#b29456', '#8aee7f', '#839efb', '#ee9bc7', '#7454ae'];
+
+      // 創建棋盤並顯示
+      function createBoard() {
+        const boardElement = document.getElementById('board');
+        boardElement.innerHTML = ''; // 清空現有內容
+
+        // 創建 2D 数組並顯示所有格子
+        for (let r = 0; r < rows; r++) {
+          board[r] = [];
+          for (let c = 0; c < cols; c++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.dataset.row = r;
+            cell.dataset.col = c;
+            cell.addEventListener('mouseover', toggleCellState); // 點擊格子改變狀態
+            boardElement.appendChild(cell);
+            board[r][c] = false; // 初始設置所有格子為死亡
+          }
+        }
+      }
+
+      // 切換格子的生命狀態
+      function toggleCellState(event) {
+        console.log(gameStart);
+        if (gameStart) return;
+
+        const cell = event.target;
+        const row = parseInt(cell.dataset.row);
+        const col = parseInt(cell.dataset.col);
+        const isAlive = board[row][col];
+
+        // 改變格子狀態
+        board[row][col] = !isAlive;
+        updateCellColor(cell, row, col);
+      }
+
+      // 更新棋盤狀態
+      function updateBoard() {
+        const nextBoard = JSON.parse(JSON.stringify(board)); // 深拷貝當前棋盤
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const aliveNeighbors = countAliveNeighbors(r, c);
+
+            if (board[r][c]) {
+              // 如果是活的細胞
+              if (aliveNeighbors < 2 || aliveNeighbors > 3) {
+                nextBoard[r][c] = false; // 過少或過多活鄰居則死亡
+              }
+            } else {
+              // 如果是死的細胞
+              if (aliveNeighbors === 3) {
+                nextBoard[r][c] = true; // 恰好三個活鄰居則復活
+              }
+            }
+          }
+        }
+
+        // 更新棋盤
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const cell = document.querySelector(`[data-row="${r}"][data-col="${c}"]`);
+            
+            // 只有當細胞狀態改變時才更新顏色
+            if (board[r][c] !== nextBoard[r][c]) {
+              if (nextBoard[r][c]) {
+                updateCellColor(cell, r, c);
+              } else {
+                cell.classList.remove(...aliveColors); // 移除所有顏色
+              }
+            }
+            
+            board[r][c] = nextBoard[r][c];
+          }
+        }
+      }
+
+      // 更新細胞顏色
+      function updateCellColor(cell, r, c) {
+        const colorIndex = Math.floor(Math.random() * (aliveColors.length - 1)); // 顏色循環
+        console.log(colorIndex)
+        cell.classList.add(aliveColors[colorIndex]);
+      }
+
+      // 計算周圍活鄰居的數量
+      function countAliveNeighbors(row, col) {
+        const directions = [
+          [-1, -1], [-1, 0], [-1, 1],
+          [0, -1], [0, 1],
+          [1, -1], [1, 0], [1, 1]
+        ];
+
+        let count = 0;
+        directions.forEach(([dr, dc]) => {
+          const newRow = row + dr;
+          const newCol = col + dc;
+          if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols && board[newRow][newCol]) {
+            count++;
+          }
+        });
+        return count;
+      }
+
+      // 開始遊戲
+      function startGame() {
+        if (interval) clearInterval(interval); // 防止重複啟動
+        interval = setInterval(updateBoard, gameSpeed); // 使用設置的速度
+        gameStart = true;
+      }
+
+      // 暫停遊戲
+      function pauseGame() {
+        clearInterval(interval); // 停止遊戲
+        gameStart = false;
+      }
+
+      // 清空棋盤
+      function clearBoard() {
+        if (interval) clearInterval(interval); // 停止遊戲
+        createBoard(); // 重建棋盤
+        gameStart = false;
+      }
+
+      // 改變遊戲速度
+      function changeSpeed(value) {
+        gameSpeed = parseInt(value);
+        if (interval) {
+          clearInterval(interval);
+          interval = setInterval(updateBoard, gameSpeed); // 更新遊戲速度
+        }
+      }
+
+      // 初始化
+      createBoard();
+    </script>
+  </body>
+
+</html>
