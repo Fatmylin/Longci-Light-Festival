@@ -434,369 +434,369 @@
         </p>
       </footer>
     </div>
-    <script>
-      //   window.addEventListener("load", function () {
-      //     setTimeout(function () {
-      //       window.scrollTo(0, document.body.scrollHeight);
-      //     }, 5000); // 延遲一段時間再觸發滾動
-      //   });
-      //   window.addEventListener("touchstart", function () {
-      //     document.documentElement.scrollIntoView({
-      //       behavior: "smooth", // 平滑滾動
-      //       block: "end", // 滾動到底部
-      //     });
-      //   });
+  </body>
+  <script>
+    //   window.addEventListener("load", function () {
+    //     setTimeout(function () {
+    //       window.scrollTo(0, document.body.scrollHeight);
+    //     }, 5000); // 延遲一段時間再觸發滾動
+    //   });
+    //   window.addEventListener("touchstart", function () {
+    //     document.documentElement.scrollIntoView({
+    //       behavior: "smooth", // 平滑滾動
+    //       block: "end", // 滾動到底部
+    //     });
+    //   });
 
-      $(document).ready(function () {
-        $(".page1").on("click", function () {
-          $(".page1").removeClass("d-flex");
-          $(".page1").addClass("d-none");
-          $(".pageH2").removeClass("d-none");
-          $(".pageH2").addClass("d-flex");
-          $(".page2").removeClass("d-none");
-          $(".page2").addClass("d-flex");
-          $(".enterP").removeClass("d-flex");
-          $(".enterP").addClass("d-none");
-        });
-
-        var p2touch = 0;
-        $(".page2").on("click", function () {
-          p2touch++;
-          if (p2touch == 1) {
-            $(".txtCon1").hide();
-            $(".txtCon2").show();
-          } else {
-            $(".txtCon2").hide();
-            $(".maskPart").removeClass("d-none");
-            $(".page2 .mainCon").removeClass("d-flex");
-            $(".page2 .mainCon").addClass("d-none");
-            $(".container").css("filter", "blur(2px)");
-            $(".gameCon").css("z-index", "4");
-            $("body").css("overflow", "hidden");
-          }
-
-          let countdown = 10;
-          const countdownInterval = setInterval(function () {
-            $(".countNum").text(countdown);
-            countdown--;
-
-            if (countdown < 0) {
-              clearInterval(countdownInterval);
-              $(".04info").hide();
-              $(".05info").show();
-              startGame();
-              setTimeout(function () {
-                pauseGame();
-                $(".colorBG").show();
-                $(".05info").hide();
-                $(".countDown").removeClass("d-flex");
-                $(".countDown").addClass("d-none");
-                $(".sendTxt").show();
-                $(".gameCon").css(
-                  "transform",
-                  "translate(-50%, -38%) scale(0.46)"
-                );
-                $(".maskPart").addClass("d-none");
-                $(".container").css("filter", " brightness(25%) blur(1px)");
-                enableSwipeDetection();
-              }, 3000);
-            }
-          }, 1000);
-        });
-        $(".reSet").on("click", function () {
-          location.reload(); // 重新加载页面
-        });
+    $(document).ready(function () {
+      $(".page1").on("click", function () {
+        $(".page1").removeClass("d-flex");
+        $(".page1").addClass("d-none");
+        $(".pageH2").removeClass("d-none");
+        $(".pageH2").addClass("d-flex");
+        $(".page2").removeClass("d-none");
+        $(".page2").addClass("d-flex");
+        $(".enterP").removeClass("d-flex");
+        $(".enterP").addClass("d-none");
       });
 
-      function enableSwipeDetection() {
-        let touchStartY = 0;
-        let touchEndY = 0;
+      var p2touch = 0;
+      $(".page2").on("click", function () {
+        p2touch++;
+        if (p2touch == 1) {
+          $(".txtCon1").hide();
+          $(".txtCon2").show();
+        } else {
+          $(".txtCon2").hide();
+          $(".maskPart").removeClass("d-none");
+          $(".page2 .mainCon").removeClass("d-flex");
+          $(".page2 .mainCon").addClass("d-none");
+          $(".container").css("filter", "blur(2px)");
+          $(".gameCon").css("z-index", "4");
+          $("body").css("overflow", "hidden");
+        }
 
-        document.addEventListener("touchstart", (event) => {
-          touchStartY = event.touches[0].clientY;
-        });
+        let countdown = 10;
+        const countdownInterval = setInterval(function () {
+          $(".countNum").text(countdown);
+          countdown--;
 
-        document.addEventListener("touchend", (event) => {
-          touchEndY = event.changedTouches[0].clientY;
-          if (touchStartY - touchEndY > 100) {
-            moveCircleUp();
+          if (countdown < 0) {
+            clearInterval(countdownInterval);
+            $(".04info").hide();
+            $(".05info").show();
+            startGame();
+            setTimeout(function () {
+              pauseGame();
+              $(".colorBG").show();
+              $(".05info").hide();
+              $(".countDown").removeClass("d-flex");
+              $(".countDown").addClass("d-none");
+              $(".sendTxt").show();
+              $(".gameCon").css(
+                "transform",
+                "translate(-50%, -38%) scale(0.46)"
+              );
+              $(".maskPart").addClass("d-none");
+              $(".container").css("filter", " brightness(25%) blur(1px)");
+              enableSwipeDetection();
+            }, 3000);
           }
-        });
-      }
+        }, 1000);
+      });
+      $(".reSet").on("click", function () {
+        location.reload(); // 重新加载页面
+      });
+    });
 
-      function moveCircleUp() {
-        $(".sendTxt").hide();
-        $(".colorBGO").show();
+    function enableSwipeDetection() {
+      let touchStartY = 0;
+      let touchEndY = 0;
+
+      document.addEventListener("touchstart", (event) => {
+        touchStartY = event.touches[0].clientY;
+      });
+
+      document.addEventListener("touchend", (event) => {
+        touchEndY = event.changedTouches[0].clientY;
+        if (touchStartY - touchEndY > 100) {
+          moveCircleUp();
+        }
+      });
+    }
+
+    function moveCircleUp() {
+      $(".sendTxt").hide();
+      $(".colorBGO").show();
+      setTimeout(() => {
+        $(".colorBGO").css({
+          transition: "transform 1s ease-out",
+          transform: "rotate(180deg)",
+        });
+
         setTimeout(() => {
-          $(".colorBGO").css({
-            transition: "transform 1s ease-out",
-            transform: "rotate(180deg)",
+          $(".colorBG, .colorBGO").css({
+            transition: "opacity 0.5s ease-out",
+            opacity: 0,
+          });
+
+          $(".container").css({
+            transition: "filter 0.5s ease-out",
+            filter: "blur(0px)",
           });
 
           setTimeout(() => {
-            $(".colorBG, .colorBGO").css({
-              transition: "opacity 0.5s ease-out",
-              opacity: 0,
-            });
+            $(".colorBG").hide();
+            $(".colorBGO").hide();
 
-            $(".container").css({
-              transition: "filter 0.5s ease-out",
-              filter: "blur(0px)",
-            });
+            $(".page2").removeClass("d-flex");
+            $(".page2").addClass("d-none");
+            $(".page3").removeClass("d-none");
+            $(".page3").addClass("d-flex");
+          }, 500);
+        }, 2500);
+      }, 300);
+      const circleContainer = document.querySelector(".circle-container");
+      circleContainer.style.transition = "transform 0.5s ease-out";
+      circleContainer.style.transform = "translateY(-200vh)";
+    }
 
-            setTimeout(() => {
-              $(".colorBG").hide();
-              $(".colorBGO").hide();
+    const rows = 9;
+    const cols = 8;
+    const board = [];
+    let gameStart = false;
+    let gameOver = false;
+    let interval;
+    let gameSpeed = 100; // 初始遊戲速度
 
-              $(".page2").removeClass("d-flex");
-              $(".page2").addClass("d-none");
-              $(".page3").removeClass("d-none");
-              $(".page3").addClass("d-flex");
-            }, 500);
-          }, 2500);
-        }, 300);
-        const circleContainer = document.querySelector(".circle-container");
-        circleContainer.style.transition = "transform 0.5s ease-out";
-        circleContainer.style.transform = "translateY(-200vh)";
+    // 顏色數組，對應不同的顏色
+    const aliveColors = [
+      "alive-0",
+      "alive-1",
+      "alive-2",
+      "alive-3",
+      "alive-4",
+    ];
+    const aliveColorsColorCode = [
+      "#b29456",
+      "#8aee7f",
+      "#839efb",
+      "#ee9bc7",
+      "#7454ae",
+    ];
+
+    // 創建棋盤並顯示
+    function createBoard() {
+      const boardElement = document.getElementById("board");
+      boardElement.innerHTML = ""; // 清空現有內容
+
+      // 創建 2D 数組並顯示所有格子
+      for (let r = 0; r < rows; r++) {
+        board[r] = [];
+        for (let c = 0; c < cols; c++) {
+          const cell = document.createElement("div");
+          cell.classList.add("cell");
+          cell.dataset.row = r;
+          cell.dataset.col = c;
+
+          cell.addEventListener("touchstart", handleTouchStart);
+          cell.addEventListener("touchmove", handleTouchMove);
+          cell.addEventListener("touchend", handleTouchEnd);
+
+          boardElement.appendChild(cell);
+          board[r][c] = false; // 初始設置所有格子為死亡
+        }
       }
+    }
 
-      const rows = 9;
-      const cols = 8;
-      const board = [];
-      let gameStart = false;
-      let gameOver = false;
-      let interval;
-      let gameSpeed = 100; // 初始遊戲速度
+    let isTouching = false;
 
-      // 顏色數組，對應不同的顏色
-      const aliveColors = [
-        "alive-0",
-        "alive-1",
-        "alive-2",
-        "alive-3",
-        "alive-4",
-      ];
-      const aliveColorsColorCode = [
-        "#b29456",
-        "#8aee7f",
-        "#839efb",
-        "#ee9bc7",
-        "#7454ae",
-      ];
+    function handleTouchStart(event) {
+      if (gameStart || gameOver) return;
+      isTouching = true;
+      const cell = event.target;
+      selCellAliveByElement(cell);
+    }
+    function handleTouchMove(event) {
+      if (!isTouching || gameStart || gameOver) return;
+      const touch = event.touches[0];
+      const element = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (element && element.classList.contains("cell")) {
+        selCellAliveByElement(element);
+      }
+    }
+    function handleTouchEnd() {
+      isTouching = false;
+    }
 
-      // 創建棋盤並顯示
-      function createBoard() {
-        const boardElement = document.getElementById("board");
-        boardElement.innerHTML = ""; // 清空現有內容
+    function selCellAliveByElement(cell) {
+      const row = parseInt(cell.dataset.row);
+      const col = parseInt(cell.dataset.col);
+      if (board[row][col]) return
+      // 設定格子狀態為存活
+      board[row][col] = true;
+      updateCellColor(cell);
+    }
 
-        // 創建 2D 数組並顯示所有格子
-        for (let r = 0; r < rows; r++) {
-          board[r] = [];
-          for (let c = 0; c < cols; c++) {
-            const cell = document.createElement("div");
-            cell.classList.add("cell");
-            cell.dataset.row = r;
-            cell.dataset.col = c;
+    // 更新棋盤狀態
+    function updateBoard() {
+      const nextBoard = JSON.parse(JSON.stringify(board)); // 深拷貝當前棋盤
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const { aliveNeighbors, neighborColors } = this.countAliveNeighbors(r, c);
 
-            cell.addEventListener("touchstart", handleTouchStart);
-            cell.addEventListener("touchmove", handleTouchMove);
-            cell.addEventListener("touchend", handleTouchEnd);
-
-            boardElement.appendChild(cell);
-            board[r][c] = false; // 初始設置所有格子為死亡
+          if (board[r][c]) {
+            // 如果是活的細胞
+            if (aliveNeighbors !== 2 && aliveNeighbors !== 3) {
+              nextBoard[r][c] = false; // 過少或過多活鄰居則死亡
+            }
+          } else {
+            // 如果是死的細胞
+            if (aliveNeighbors === 3) {
+              nextBoard[r][c] = true; // 恰好三個活鄰居則復活
+            }
           }
         }
       }
 
-      let isTouching = false;
+      // 更新棋盤
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const cell = document.querySelector(
+            `[data-row="${r}"][data-col="${c}"]`
+          );
+          const { aliveNeighbors, neighborColor } = this.countAliveNeighbors(r, c);
 
-      function handleTouchStart(event) {
-        if (gameStart || gameOver) return;
-        isTouching = true;
-        const cell = event.target;
-        selCellAliveByElement(cell);
-      }
-      function handleTouchMove(event) {
-        if (!isTouching || gameStart || gameOver) return;
-        const touch = event.touches[0];
-        const element = document.elementFromPoint(touch.clientX, touch.clientY);
-        if (element && element.classList.contains("cell")) {
-          selCellAliveByElement(element);
-        }
-      }
-      function handleTouchEnd() {
-        isTouching = false;
-      }
-
-      function selCellAliveByElement(cell) {
-        const row = parseInt(cell.dataset.row);
-        const col = parseInt(cell.dataset.col);
-        if (board[row][col]) return
-        // 設定格子狀態為存活
-        board[row][col] = true;
-        updateCellColor(cell);
-      }
-
-      // 更新棋盤狀態
-      function updateBoard() {
-        const nextBoard = JSON.parse(JSON.stringify(board)); // 深拷貝當前棋盤
-        for (let r = 0; r < rows; r++) {
-          for (let c = 0; c < cols; c++) {
-            const { aliveNeighbors, neighborColors } = this.countAliveNeighbors(r, c);
-
-            if (board[r][c]) {
-              // 如果是活的細胞
-              if (aliveNeighbors !== 2 && aliveNeighbors !== 3) {
-                nextBoard[r][c] = false; // 過少或過多活鄰居則死亡
-              }
+          // 只有當細胞狀態改變時才更新顏色
+          if (board[r][c] !== nextBoard[r][c]) {
+            if (nextBoard[r][c]) {
+              updateCellColor(cell, neighborColor);
             } else {
-              // 如果是死的細胞
-              if (aliveNeighbors === 3) {
-                nextBoard[r][c] = true; // 恰好三個活鄰居則復活
-              }
+              cell.classList.remove(...aliveColors); // 移除所有顏色
             }
           }
-        }
 
-        // 更新棋盤
-        for (let r = 0; r < rows; r++) {
-          for (let c = 0; c < cols; c++) {
-            const cell = document.querySelector(
-              `[data-row="${r}"][data-col="${c}"]`
-            );
-            const { aliveNeighbors, neighborColor } = this.countAliveNeighbors(r, c);
-
-            // 只有當細胞狀態改變時才更新顏色
-            if (board[r][c] !== nextBoard[r][c]) {
-              if (nextBoard[r][c]) {
-                updateCellColor(cell, neighborColor);
-              } else {
-                cell.classList.remove(...aliveColors); // 移除所有顏色
-              }
-            }
-
-            board[r][c] = nextBoard[r][c];
-          }
+          board[r][c] = nextBoard[r][c];
         }
       }
+    }
 
-      // 更新細胞顏色
-      function updateCellColor(cell, color) {
-        const colorIndex = color ? aliveColors.indexOf(color) : Math.floor(Math.random() * (aliveColors.length - 1)); // 顏色循環
-        cell.classList.add(aliveColors[colorIndex]);
-      }
+    // 更新細胞顏色
+    function updateCellColor(cell, color) {
+      const colorIndex = color ? aliveColors.indexOf(color) : Math.floor(Math.random() * (aliveColors.length - 1)); // 顏色循環
+      cell.classList.add(aliveColors[colorIndex]);
+    }
 
-      // 計算周圍活鄰居的數量
-      // function countAliveNeighbors(x, y) {
-      //   let count = 0;
-      //   const neighborColors = {};
+    // 計算周圍活鄰居的數量
+    // function countAliveNeighbors(x, y) {
+    //   let count = 0;
+    //   const neighborColors = {};
 
-      //   for (let i = -1; i <= 1; i++) {
-      //     for (let j = -1; j <= 1; j++) {
-      //       if (i === 0 && j === 0) continue;
+    //   for (let i = -1; i <= 1; i++) {
+    //     for (let j = -1; j <= 1; j++) {
+    //       if (i === 0 && j === 0) continue;
 
-      //       const nx = x + i;
-      //       const ny = y + j;
+    //       const nx = x + i;
+    //       const ny = y + j;
 
-      //       if (nx >= 0 && nx < this.gridSize && ny >= 0 && ny < this.gridSize) {
-      //         const color = this.currentGeneration[nx][ny];
-      //         if (color !== this.deadColor) {
-      //           count++;
-      //           neighborColors[color] = (neighborColors[color] || 0) + 1;
-      //         }
-      //       }
-      //     }
-      //   }
+    //       if (nx >= 0 && nx < this.gridSize && ny >= 0 && ny < this.gridSize) {
+    //         const color = this.currentGeneration[nx][ny];
+    //         if (color !== this.deadColor) {
+    //           count++;
+    //           neighborColors[color] = (neighborColors[color] || 0) + 1;
+    //         }
+    //       }
+    //     }
+    //   }
 
-      //   return { aliveNeighbors: count, neighborColors };
-      // }
+    //   return { aliveNeighbors: count, neighborColors };
+    // }
 
-      function getColorClassFromCell(cell) {
-        for (const color of aliveColors) {
-          if (cell.classList.contains(color)) {
-            return color;
-          }
+    function getColorClassFromCell(cell) {
+      for (const color of aliveColors) {
+        if (cell.classList.contains(color)) {
+          return color;
         }
-        return null;
       }
-      
-      function countAliveNeighbors(row, col) {
-        const directions = [
-          [-1, -1],
-          [-1, 0],
-          [-1, 1],
-          [0, -1],
-          [0, 1],
-          [1, -1],
-          [1, 0],
-          [1, 1],
-        ];
+      return null;
+    }
+    
+    function countAliveNeighbors(row, col) {
+      const directions = [
+        [-1, -1],
+        [-1, 0],
+        [-1, 1],
+        [0, -1],
+        [0, 1],
+        [1, -1],
+        [1, 0],
+        [1, 1],
+      ];
 
-        let count = 0;
-        const neighborColors = {};
+      let count = 0;
+      const neighborColors = {};
 
-        directions.forEach(([dr, dc]) => {
-          const newRow = row + dr;
-          const newCol = col + dc;
-          if (
-            newRow >= 0 &&
-            newRow < rows &&
-            newCol >= 0 &&
-            newCol < cols &&
-            board[newRow][newCol]
-          ) {
-            count++;
-            
-            const cell = document.querySelector(`[data-row="${newRow}"][data-col="${newCol}"]`);
-            const color = getColorClassFromCell(cell);
-            neighborColors[color] = (neighborColors[color] || 0) + 1;
-          }
-        });
-
-        let dominantColor = null;
-        let maxCount = 0;
-        for (const [color, colorCount] of Object.entries(neighborColors)) {
-          if (colorCount > maxCount) {
-            maxCount = colorCount;
-            dominantColor = color;
-          }
+      directions.forEach(([dr, dc]) => {
+        const newRow = row + dr;
+        const newCol = col + dc;
+        if (
+          newRow >= 0 &&
+          newRow < rows &&
+          newCol >= 0 &&
+          newCol < cols &&
+          board[newRow][newCol]
+        ) {
+          count++;
+          
+          const cell = document.querySelector(`[data-row="${newRow}"][data-col="${newCol}"]`);
+          const color = getColorClassFromCell(cell);
+          neighborColors[color] = (neighborColors[color] || 0) + 1;
         }
+      });
 
-        return { aliveNeighbors: count, neighborColor: dominantColor };
-      }
-
-      // 開始遊戲
-      function startGame() {
-        if (interval) clearInterval(interval); // 防止重複啟動
-        interval = setInterval(updateBoard, gameSpeed); // 使用設置的速度
-        gameStart = true;
-      }
-
-      // 暫停遊戲
-      function pauseGame() {
-        clearInterval(interval); // 停止遊戲
-        gameStart = false;
-        gameOver = true;
-      }
-
-      // 清空棋盤
-      function clearBoard() {
-        if (interval) clearInterval(interval); // 停止遊戲
-        createBoard(); // 重建棋盤
-        gameStart = false;
-      }
-
-      // 改變遊戲速度
-      function changeSpeed(value) {
-        gameSpeed = parseInt(value);
-        if (interval) {
-          clearInterval(interval);
-          interval = setInterval(updateBoard, gameSpeed); // 更新遊戲速度
+      let dominantColor = null;
+      let maxCount = 0;
+      for (const [color, colorCount] of Object.entries(neighborColors)) {
+        if (colorCount > maxCount) {
+          maxCount = colorCount;
+          dominantColor = color;
         }
       }
 
-      // 初始化
-      createBoard();
-    </script>
-  </body>
+      return { aliveNeighbors: count, neighborColor: dominantColor };
+    }
+
+    // 開始遊戲
+    function startGame() {
+      if (interval) clearInterval(interval); // 防止重複啟動
+      interval = setInterval(updateBoard, gameSpeed); // 使用設置的速度
+      gameStart = true;
+    }
+
+    // 暫停遊戲
+    function pauseGame() {
+      clearInterval(interval); // 停止遊戲
+      gameStart = false;
+      gameOver = true;
+    }
+
+    // 清空棋盤
+    function clearBoard() {
+      if (interval) clearInterval(interval); // 停止遊戲
+      createBoard(); // 重建棋盤
+      gameStart = false;
+    }
+
+    // 改變遊戲速度
+    function changeSpeed(value) {
+      gameSpeed = parseInt(value);
+      if (interval) {
+        clearInterval(interval);
+        interval = setInterval(updateBoard, gameSpeed); // 更新遊戲速度
+      }
+    }
+
+    // 初始化
+    createBoard();
+  </script>
 </html>
