@@ -597,7 +597,6 @@
             cell.classList.add("cell");
             cell.dataset.row = r;
             cell.dataset.col = c;
-            // cell.addEventListener("touchstart", toggleCellState); // 點擊格子改變狀態
 
             cell.addEventListener("touchstart", handleTouchStart);
             cell.addEventListener("touchmove", handleTouchMove);
@@ -607,21 +606,6 @@
             board[r][c] = false; // 初始設置所有格子為死亡
           }
         }
-      }
-
-      // 切換格子的生命狀態
-      function toggleCellState(event) {
-        console.log(gameStart);
-        if (gameStart) return;
-
-        const cell = event.target;
-        const row = parseInt(cell.dataset.row);
-        const col = parseInt(cell.dataset.col);
-        const isAlive = board[row][col];
-
-        // 改變格子狀態
-        board[row][col] = !isAlive;
-        updateCellColor(cell, row, col);
       }
 
       let isTouching = false;
@@ -648,10 +632,10 @@
         const row = parseInt(cell.dataset.row);
         const col = parseInt(cell.dataset.col);
         const isAlive = board[row][col];
-
+        if (isAlive) return
         // 切换格子状态
         board[row][col] = !isAlive;
-        updateCellColor(cell, row, col);
+        updateCellColor(cell);
       }
 
       // 更新棋盤狀態
@@ -659,11 +643,11 @@
         const nextBoard = JSON.parse(JSON.stringify(board)); // 深拷貝當前棋盤
         for (let r = 0; r < rows; r++) {
           for (let c = 0; c < cols; c++) {
-            const aliveNeighbors = countAliveNeighbors(r, c);
+            const { aliveNeighbors, neighborColors } = this.countAliveNeighbors(r, c);
 
             if (board[r][c]) {
               // 如果是活的細胞
-              if (aliveNeighbors < 2 || aliveNeighbors > 3) {
+              if (aliveNeighbors !== 2 && aliveNeighbors !== 3) {
                 nextBoard[r][c] = false; // 過少或過多活鄰居則死亡
               }
             } else {
@@ -681,11 +665,12 @@
             const cell = document.querySelector(
               `[data-row="${r}"][data-col="${c}"]`
             );
+            const { aliveNeighbors, neighborColor } = this.countAliveNeighbors(r, c);
 
             // 只有當細胞狀態改變時才更新顏色
             if (board[r][c] !== nextBoard[r][c]) {
               if (nextBoard[r][c]) {
-                updateCellColor(cell, r, c);
+                updateCellColor(cell, neighborColor);
               } else {
                 cell.classList.remove(...aliveColors); // 移除所有顏色
               }
@@ -697,13 +682,45 @@
       }
 
       // 更新細胞顏色
-      function updateCellColor(cell, r, c) {
-        const colorIndex = Math.floor(Math.random() * (aliveColors.length - 1)); // 顏色循環
-        console.log(colorIndex);
+      function updateCellColor(cell, color) {
+        const colorIndex = color ? aliveColors.indexOf(color) : Math.floor(Math.random() * (aliveColors.length - 1)); // 顏色循環
         cell.classList.add(aliveColors[colorIndex]);
       }
 
       // 計算周圍活鄰居的數量
+      // function countAliveNeighbors(x, y) {
+      //   let count = 0;
+      //   const neighborColors = {};
+
+      //   for (let i = -1; i <= 1; i++) {
+      //     for (let j = -1; j <= 1; j++) {
+      //       if (i === 0 && j === 0) continue;
+
+      //       const nx = x + i;
+      //       const ny = y + j;
+
+      //       if (nx >= 0 && nx < this.gridSize && ny >= 0 && ny < this.gridSize) {
+      //         const color = this.currentGeneration[nx][ny];
+      //         if (color !== this.deadColor) {
+      //           count++;
+      //           neighborColors[color] = (neighborColors[color] || 0) + 1;
+      //         }
+      //       }
+      //     }
+      //   }
+
+      //   return { aliveNeighbors: count, neighborColors };
+      // }
+
+      function getColorClassFromCell(cell) {
+        for (const color of aliveColors) {
+          if (cell.classList.contains(color)) {
+            return color;
+          }
+        }
+        return null;
+      }
+      
       function countAliveNeighbors(row, col) {
         const directions = [
           [-1, -1],
@@ -717,6 +734,8 @@
         ];
 
         let count = 0;
+        const neighborColors = {};
+
         directions.forEach(([dr, dc]) => {
           const newRow = row + dr;
           const newCol = col + dc;
@@ -728,9 +747,23 @@
             board[newRow][newCol]
           ) {
             count++;
+            
+            const cell = document.querySelector(`[data-row="${newRow}"][data-col="${newCol}"]`);
+            const color = getColorClassFromCell(cell);
+            neighborColors[color] = (neighborColors[color] || 0) + 1;
           }
         });
-        return count;
+
+        let dominantColor = null;
+        let maxCount = 0;
+        for (const [color, colorCount] of Object.entries(neighborColors)) {
+          if (colorCount > maxCount) {
+            maxCount = colorCount;
+            dominantColor = color;
+          }
+        }
+
+        return { aliveNeighbors: count, neighborColor: dominantColor };
       }
 
       // 開始遊戲
