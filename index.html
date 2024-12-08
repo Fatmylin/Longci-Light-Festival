@@ -614,27 +614,26 @@
         if (gameStart || gameOver) return;
         isTouching = true;
         const cell = event.target;
-        toggleCellStateByElement(cell);
+        selCellAliveByElement(cell);
       }
       function handleTouchMove(event) {
         if (!isTouching || gameStart || gameOver) return;
         const touch = event.touches[0];
         const element = document.elementFromPoint(touch.clientX, touch.clientY);
         if (element && element.classList.contains("cell")) {
-          toggleCellStateByElement(element);
+          selCellAliveByElement(element);
         }
       }
       function handleTouchEnd() {
         isTouching = false;
       }
 
-      function toggleCellStateByElement(cell) {
+      function selCellAliveByElement(cell) {
         const row = parseInt(cell.dataset.row);
         const col = parseInt(cell.dataset.col);
-        const isAlive = board[row][col];
-        if (isAlive) return
-        // 切换格子状态
-        board[row][col] = !isAlive;
+        if (board[row][col]) return
+        // 設定格子狀態為存活
+        board[row][col] = true;
         updateCellColor(cell);
       }
 
