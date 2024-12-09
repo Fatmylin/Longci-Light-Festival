@@ -679,7 +679,7 @@
 
     // 更新細胞顏色
     function updateCellColor(cell, color) {
-      const colorIndex = color ? aliveColors.indexOf(color) : Math.floor(Math.random() * (aliveColors.length - 1)); // 顏色循環
+      const colorIndex = color ? aliveColors.indexOf(color) : Math.floor(Math.random() * (aliveColors.length)); // 顏色循環
       cell.classList.add(aliveColors[colorIndex]);
     }
 
