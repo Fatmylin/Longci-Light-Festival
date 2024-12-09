@@ -197,7 +197,7 @@
       }
 
       /* 顏色數組 */
-      .alive-0 {
+      .magenta {
         background-image: url(./image/pic-cell-pink.png);
         -webkit-transition: background-color 1000ms linear;
         -ms-transition: background-color 1000ms linear;
@@ -205,7 +205,7 @@
         /* 粉紅色 */
       }
 
-      .alive-1 {
+      .blue {
         background-image: url(./image/pic-cell-blue.png);
         -webkit-transition: background-color 1000ms linear;
         -ms-transition: background-color 1000ms linear;
@@ -213,7 +213,7 @@
         /* 藍色 */
       }
 
-      .alive-2 {
+      .red {
         background-image: url(./image/pic-cell-red.png);
         -webkit-transition: background-color 1000ms linear;
         -ms-transition: background-color 1000ms linear;
@@ -221,7 +221,7 @@
         /* 紅色 */
       }
 
-      .alive-3 {
+      .green {
         background-image: url(./image/pic-cell-green.png);
         -webkit-transition: background-color 1000ms linear;
         -ms-transition: background-color 1000ms linear;
@@ -571,18 +571,10 @@
 
     // 顏色數組，對應不同的顏色
     const aliveColors = [
-      "alive-0",
-      "alive-1",
-      "alive-2",
-      "alive-3",
-      "alive-4",
-    ];
-    const aliveColorsColorCode = [
-      "#b29456",
-      "#8aee7f",
-      "#839efb",
-      "#ee9bc7",
-      "#7454ae",
+      "magenta",
+      "blue",
+      "red",
+      "green",
     ];
 
     // 創建棋盤並顯示
