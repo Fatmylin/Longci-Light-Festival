@@ -250,9 +250,36 @@
         width: 100%;
         display: none;
       }
+
+      #loading-cover {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: black;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.8s ease; /* 渐进效果 */
+        opacity: 1; /* 初始完全不透明 */
+      }
+      #loading-cover.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
     </style>
   </head>
   <body>
+    <div id="loading-cover">
+      <img
+        src="./image/01-logo.png"
+        alt=""
+        style="width: 90%; transform: translateY(-30%)"
+        class="pb-5"
+      />
+    </div>
     <div
       class="gameCon position-absolute d-flex flex-column align-items-center"
     >
@@ -479,10 +506,10 @@
 
         let countdown = 10;
         const countdownInterval = setInterval(function () {
-          console.log(countdown)
+          console.log(countdown);
           $(".countNum").text(countdown);
           countdown--;
-
+          console.log(countdown);
           if (countdown < 0) {
             clearInterval(countdownInterval);
             $(".04info").hide();
@@ -512,6 +539,14 @@
       });
     });
 
+    document.addEventListener("DOMContentLoaded", function () {
+      const cover = document.getElementById("loading-cover");
+      // 等待页面完全渲染后移除遮罩
+      setTimeout(() => {
+        cover.classList.add("hidden");
+      }, 1000); // 可根据需要调整延迟时间
+    });
+
     function enableSwipeDetection() {
       let touchStartY = 0;
       let touchEndY = 0;
@@ -523,7 +558,7 @@
       document.addEventListener("touchend", (event) => {
         touchEndY = event.changedTouches[0].clientY;
         if (touchStartY - touchEndY > 100) {
-          sendAllCellColorsToSocket()
+          sendAllCellColorsToSocket();
           moveCircleUp();
         }
       });
@@ -576,12 +611,7 @@
     let gameSpeed = 300; // 初始遊戲速度
 
     // 顏色數組，對應不同的顏色
-    const aliveColors = [
-      "magenta",
-      "blue",
-      "red",
-      "green",
-    ];
+    const aliveColors = ["magenta", "blue", "red", "green"];
 
     // 創建棋盤並顯示
     function createBoard() {
@@ -611,7 +641,7 @@
 
     function handleTouchStart(event) {
       if (gameOver) return;
-      pauseGame()
+      pauseGame();
       isTouching = true;
       const cell = event.target;
       selCellAliveByElement(cell);
@@ -625,14 +655,16 @@
       }
     }
     function handleTouchEnd() {
+      if (gameOver) return;
+
       isTouching = false;
-      startGame()
+      startGame();
     }
 
     function selCellAliveByElement(cell) {
       const row = parseInt(cell.dataset.row);
       const col = parseInt(cell.dataset.col);
-      if (board[row][col]) return
+      if (board[row][col]) return;
       // 設定格子狀態為存活
       board[row][col] = true;
       updateCellColor(cell);
@@ -643,7 +675,10 @@
       const nextBoard = JSON.parse(JSON.stringify(board)); // 深拷貝當前棋盤
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
-          const { aliveNeighbors, neighborColors } = this.countAliveNeighbors(r, c);
+          const { aliveNeighbors, neighborColors } = this.countAliveNeighbors(
+            r,
+            c
+          );
 
           if (board[r][c]) {
             // 如果是活的細胞
@@ -665,7 +700,10 @@
           const cell = document.querySelector(
             `[data-row="${r}"][data-col="${c}"]`
           );
-          const { aliveNeighbors, neighborColor } = this.countAliveNeighbors(r, c);
+          const { aliveNeighbors, neighborColor } = this.countAliveNeighbors(
+            r,
+            c
+          );
 
           // 只有當細胞狀態改變時才更新顏色
           if (board[r][c] !== nextBoard[r][c]) {
@@ -683,7 +721,9 @@
 
     // 更新細胞顏色
     function updateCellColor(cell, color) {
-      const colorIndex = color ? aliveColors.indexOf(color) : Math.floor(Math.random() * (aliveColors.length)); // 顏色循環
+      const colorIndex = color
+        ? aliveColors.indexOf(color)
+        : Math.floor(Math.random() * aliveColors.length); // 顏色循環
       cell.classList.add(aliveColors[colorIndex]);
     }
 
@@ -720,7 +760,7 @@
       }
       return null;
     }
-    
+
     function countAliveNeighbors(row, col) {
       const directions = [
         [-1, -1],
@@ -747,8 +787,10 @@
           board[newRow][newCol]
         ) {
           count++;
-          
-          const cell = document.querySelector(`[data-row="${newRow}"][data-col="${newCol}"]`);
+
+          const cell = document.querySelector(
+            `[data-row="${newRow}"][data-col="${newCol}"]`
+          );
           const color = getColorClassFromCell(cell);
           neighborColors[color] = (neighborColors[color] || 0) + 1;
         }
@@ -768,7 +810,7 @@
 
     // 開始遊戲
     function startGame() {
-      console.log("start")
+      console.log("start");
       if (interval) clearInterval(interval); // 防止重複啟動
       interval = setInterval(updateBoard, gameSpeed); // 使用設置的速度
       gameStart = true;
@@ -776,14 +818,14 @@
 
     // 暫停遊戲
     function pauseGame() {
-      console.log("pause")
+      console.log("pause");
       clearInterval(interval); // 停止遊戲
       gameStart = false;
       gameOver = false;
     }
 
     function endGame() {
-      console.log("end")
+      console.log("end");
       clearInterval(interval); // 停止遊戲
       gameStart = false;
       gameOver = true;
@@ -813,8 +855,10 @@
       const colors = [];
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
-          const cell = document.querySelector(`[data-row="${r}"][data-col="${c}"]`);
-          aliveColors.forEach(color => {
+          const cell = document.querySelector(
+            `[data-row="${r}"][data-col="${c}"]`
+          );
+          aliveColors.forEach((color) => {
             if (cell.classList.contains(color)) {
               colors.push(color);
             }
@@ -825,14 +869,14 @@
     }
 
     function sendAllCellColorsToSocket() {
-      console.log(allCellColors())
-        socket.emit('message', { msg: allCellColors() });
-      }
+      console.log(allCellColors());
+      socket.emit("message", { msg: allCellColors() });
+    }
 
     // 初始化
     createBoard();
-    socket.on('connect', () => {
-      console.log('A user connected:', socket.id);
+    socket.on("connect", () => {
+      console.log("A user connected:", socket.id);
     });
   </script>
 </html>
