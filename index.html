@@ -488,7 +488,7 @@
             $(".05info").show();
             startGame();
             setTimeout(function () {
-              pauseGame();
+              endGame();
               $(".colorBG").show();
               $(".05info").hide();
               $(".countDown").removeClass("d-flex");
@@ -571,7 +571,7 @@
     let gameStart = false;
     let gameOver = false;
     let interval;
-    let gameSpeed = 500; // 初始遊戲速度
+    let gameSpeed = 300; // 初始遊戲速度
 
     // 顏色數組，對應不同的顏色
     const aliveColors = [
@@ -608,6 +608,7 @@
     let isTouching = false;
 
     function handleTouchStart(event) {
+      pauseGame()
       if (gameStart || gameOver) return;
       isTouching = true;
       const cell = event.target;
@@ -623,6 +624,7 @@
     }
     function handleTouchEnd() {
       isTouching = false;
+      startGame()
     }
 
     function selCellAliveByElement(cell) {
@@ -764,6 +766,7 @@
 
     // 開始遊戲
     function startGame() {
+      console.log("start")
       if (interval) clearInterval(interval); // 防止重複啟動
       interval = setInterval(updateBoard, gameSpeed); // 使用設置的速度
       gameStart = true;
@@ -771,6 +774,14 @@
 
     // 暫停遊戲
     function pauseGame() {
+      console.log("pause")
+      clearInterval(interval); // 停止遊戲
+      gameStart = false;
+      gameOver = false;
+    }
+
+    function endGame() {
+      console.log("end")
       clearInterval(interval); // 停止遊戲
       gameStart = false;
       gameOver = true;
