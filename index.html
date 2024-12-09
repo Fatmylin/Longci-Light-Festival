@@ -479,6 +479,7 @@
 
         let countdown = 10;
         const countdownInterval = setInterval(function () {
+          console.log(countdown)
           $(".countNum").text(countdown);
           countdown--;
 
@@ -487,6 +488,7 @@
             $(".04info").hide();
             $(".05info").show();
             startGame();
+            stopDrawing();
             setTimeout(function () {
               endGame();
               $(".colorBG").show();
@@ -608,8 +610,8 @@
     let isTouching = false;
 
     function handleTouchStart(event) {
+      if (gameOver) return;
       pauseGame()
-      if (gameStart || gameOver) return;
       isTouching = true;
       const cell = event.target;
       selCellAliveByElement(cell);
@@ -784,6 +786,10 @@
       console.log("end")
       clearInterval(interval); // 停止遊戲
       gameStart = false;
+      gameOver = true;
+    }
+
+    function stopDrawing() {
       gameOver = true;
     }
 
