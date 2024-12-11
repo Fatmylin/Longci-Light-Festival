@@ -271,6 +271,34 @@
         opacity: 0;
         pointer-events: none;
       }
+      @keyframes ripple-effect {
+        0% {
+          transform: scale(1); /* 初始大小 */
+          opacity: 0; /* 初始不透明 */
+        }
+        50% {
+          opacity: 1; /* 最終透明 */
+        }
+        100% {
+          transform: scale(1.6); /* 最終放大 2 倍 */
+          opacity: 0; /* 最終透明 */
+        }
+      }
+
+      /* 為 .ripple2 和 .ripple3 應用動畫 */
+      .ripple2,
+      .ripple3 {
+        animation: ripple-effect 3s ease-in-out infinite; /* 3秒內循環動畫 */
+        transform-origin: center center;
+      }
+
+      /* 可以調整不同的時間延遲來讓它們不同步 */
+      .ripple2 {
+        animation-delay: 0s; /* 無延遲 */
+      }
+      .ripple3 {
+        animation-delay: 1s; /* 延遲1秒啟動 */
+      }
     </style>
   </head>
   <body>
@@ -347,7 +375,7 @@
         class="05info"
       />
     </div>
-    <img class="colorBG" src="./image/bg-flower.png" alt="" />
+    <img class="colorBG" src="./image/bg-water.png" alt="" />
     <img class="colorBGO" src="./image/bg-flower-circle.png" alt="" />
     <div class="maskPart d-none"></div>
     <div class="container d-flex flex-column">
@@ -361,23 +389,67 @@
       </header>
 
       <main
-        class="page1 content d-flex justify-content-center align-items-center flex-grow-1 flex-column"
+        class="page1 content d-none justify-content-center align-items-center flex-grow-1 flex-column"
+        style="overflow: hidden"
       >
         <div class="mainCon d-flex justify-content-center">
           <img
             src="./image/01-logo.png"
             alt=""
-            style="width: 90%; transform: translateY(100%)"
+            style="width: 90%; transform: translateY(170%)"
             class="pb-5"
           />
         </div>
         <div class="enterP d-flex justify-content-center">
-          <img
+          <!-- <img
             src="./image/01-btn-start.png"
             alt=""
             style="width: 55%; transform: translateY(60%)"
             class="pb-5"
-          />
+          /> -->
+          <!-- <img
+            src="./image/start-btn-bg-05.png"
+            alt=""
+            style="width: 30%; bottom: 19%"
+            class="position-absolute"
+          /> -->
+          <div
+            class="ripples"
+            style="
+              position: relative;
+              width: 450px;
+              height: 450px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              bottom: -20%;
+            "
+          >
+            <img
+              src="./image/start-btn-bg-05.png"
+              alt=""
+              style="width: 25%; bottom: 43%"
+              class="position-absolute"
+            />
+            <img
+              src="./image/start-circle-01.png"
+              alt=""
+              style="width: 45%; transform-origin: center center"
+              class="position-absolute ripple1"
+            />
+            <img
+              src="./image/start-circle-01.png"
+              alt=""
+              style="width: 45%; transform-origin: center center"
+              class="position-absolute ripple2"
+            />
+            <img
+              src="./image/start-circle-01.png"
+              alt=""
+              style="width: 45%; transform-origin: center center"
+              class="position-absolute ripple3"
+            />
+          </div>
         </div>
       </main>
 
@@ -449,30 +521,70 @@
       </main>
 
       <main
-        class="page3 content d-none justify-content-center align-items-center flex-grow-1 flex-column"
+        class="page3 content d-flex justify-content-center align-items-center flex-grow-1 flex-column"
+        style="overflow: hidden"
       >
         <div
-          class="mainCon d-flex justify-content-center position-relative flex-column w-100 align-items-center mt-5"
+          class="mainCon d-flex justify-content-center position-relative flex-column w-100 align-items-center"
+          style="transform: translateY(100%)"
         >
-          <img
-            src="./image/08-h1.png"
-            alt=""
-            style="width: 90%; transform: translateY(10%)"
-            class="mb-2"
-          />
+          <img src="./image/08-h1.png" alt="" style="width: 90%" class="mb-2" />
           <img
             src="./image/08-h2.png"
             alt=""
-            style="width: 75%; transform: translateY(10%)"
+            style="width: 50%; transform: translateY(15%)"
           />
         </div>
         <div class="reSet d-flex justify-content-center">
-          <img
+          <!-- <img
             src="./image/08-btn-again.png"
             alt=""
             style="width: 80%; transform: translateY(35%)"
             class="mt-5"
-          />
+          /> -->
+          <!-- <img
+            src="./image/end-btn-bg-05.png"
+            alt=""
+            style="width: 25%; bottom: 14.5%"
+            class="position-absolute"
+          /> -->
+          <div
+            class="ripples"
+            style="
+              position: relative;
+              width: 450px;
+              height: 450px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              bottom: -20%;
+            "
+          >
+            <img
+              src="./image/end-btn-bg-05.png"
+              alt=""
+              style="width: 22%; bottom: 43.5%"
+              class="position-absolute"
+            />
+            <img
+              src="./image/end-btn-bg-02.png"
+              alt=""
+              style="width: 60%; transform-origin: center center"
+              class="position-absolute ripple1"
+            />
+            <img
+              src="./image/end-btn-bg-02.png"
+              alt=""
+              style="width: 60%; transform-origin: center center"
+              class="position-absolute ripple2"
+            />
+            <img
+              src="./image/end-btn-bg-02.png"
+              alt=""
+              style="width: 60%; transform-origin: center center"
+              class="position-absolute ripple3"
+            />
+          </div>
         </div>
       </main>
 
