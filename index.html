@@ -515,6 +515,7 @@
             class="04circle c042"
           />
           <video
+            id="myVideo"
             preload="auto"
             name="media"
             autoplay
@@ -662,6 +663,9 @@
     //       block: "end", // 滾動到底部
     //     });
     //   });
+    const video = document.getElementById('myVideo');
+    video.preload = 'auto'; // Set preload mode dynamically
+    video.load(); // Start preloading the video
 
     $(document).ready(function () {
       $(".page1").on("click", function () {
