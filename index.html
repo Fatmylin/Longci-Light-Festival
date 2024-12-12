@@ -641,7 +641,7 @@
       .then(blob => {
         const url = URL.createObjectURL(blob);
         video.src = url;
-        video.setAttribute("style", "width: 100%; border-radius: 100 %;overflow: hidden;object-fit: fill;box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2); ")
+        video.setAttribute("style", "width: 100%; border-radius: 100%;overflow: hidden;object-fit: fill;box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2); ")
         document.getElementById("myVideo").replaceWith(video);
         video.preload = 'auto';
         video.load();
