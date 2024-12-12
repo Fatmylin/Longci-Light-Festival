@@ -516,26 +516,7 @@
           />
           <video
             id="myVideo"
-            preload="auto"
-            name="media"
-            autoplay
-            loop
-            playsinline
-            muted
-            style="
-              width: 100%;
-              border-radius: 100%;
-              overflow: hidden;
-              object-fit: fill;
-              box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2);
-            "
           >
-            <source
-              src="./image/02-bg-circle_crop.webm"
-              type="video/webm"
-              style="width: 115%; transform: translateY(5%)"
-              class="pb-5"
-            />
           </video>
           <div
             class="txtCon txtCon1 position-absolute top-50 start-50 w-100"
@@ -652,20 +633,6 @@
     </div>
   </body>
   <script>
-    //   window.addEventListener("load", function () {
-    //     setTimeout(function () {
-    //       window.scrollTo(0, document.body.scrollHeight);
-    //     }, 5000); // 延遲一段時間再觸發滾動
-    //   });
-    //   window.addEventListener("touchstart", function () {
-    //     document.documentElement.scrollIntoView({
-    //       behavior: "smooth", // 平滑滾動
-    //       block: "end", // 滾動到底部
-    //     });
-    //   });
-    // const video = document.getElementById('myVideo');
-    // video.preload = 'auto'; // Set preload mode dynamically
-    // video.load(); // Start preloading the video
     const video = document.createElement('video');
     video.muted = true;
 
@@ -674,7 +641,8 @@
       .then(blob => {
         const url = URL.createObjectURL(blob);
         video.src = url;
-        document.body.appendChild(video);
+        video.setAttribute("style", "width: 100%; border-radius: 100 %;overflow: hidden;object-fit: fill;box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2); ")
+        document.getElementById("myVideo").replaceWith(video);
         video.preload = 'auto';
         video.load();
       })
