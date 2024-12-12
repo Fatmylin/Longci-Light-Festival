@@ -641,6 +641,12 @@
       .then(blob => {
         const url = URL.createObjectURL(blob);
         video.src = url;
+        video.setAttribute('preload', 'auto');
+        video.setAttribute('name', 'media');
+        video.setAttribute('autoplay', '');
+        video.setAttribute('loop', '');
+        video.setAttribute('playsinline', '');
+        video.setAttribute('muted', '');
         video.setAttribute("style", "width: 100%; border-radius: 100%;overflow: hidden;object-fit: fill;box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2); ")
         document.getElementById("myVideo").replaceWith(video);
         video.preload = 'auto';
