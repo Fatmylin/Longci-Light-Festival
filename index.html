@@ -663,9 +663,22 @@
     //       block: "end", // 滾動到底部
     //     });
     //   });
-    const video = document.getElementById('myVideo');
-    video.preload = 'auto'; // Set preload mode dynamically
-    video.load(); // Start preloading the video
+    // const video = document.getElementById('myVideo');
+    // video.preload = 'auto'; // Set preload mode dynamically
+    // video.load(); // Start preloading the video
+    const video = document.createElement('video');
+    video.muted = true;
+
+    fetch('./image/02-bg-circle_crop.webm')
+      .then(response => response.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        video.src = url;
+        document.body.appendChild(video);
+        video.preload = 'auto';
+        video.load();
+      })
+      .catch(error => console.error('Error preloading video:', error));
 
     $(document).ready(function () {
       $(".page1").on("click", function () {
