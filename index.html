@@ -78,11 +78,12 @@
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
-        background-image: url("./image/bg.png");
+        background-image: url("./image/bg.gif");
         position: relative;
         background-size: cover;
         background-repeat: no-repeat;
-        background-position-y: -50px;
+        /* background-position-y: -50px; */
+        background-position: bottom;
       }
       .maskPart {
         height: 90vh;
@@ -93,7 +94,6 @@
         position: absolute;
         background-size: cover;
         background-repeat: no-repeat;
-        filter: brightness(0.8);
         opacity: 0.2;
         background-blend-mode: overlay;
         z-index: 3;
@@ -117,6 +117,7 @@
           /* 第一层光晕 */ 0 0 10px rgba(255, 255, 255, 0.5),
           /* 第二层光晕 */ 0 0 15px rgba(255, 255, 255, 0.4),
           /* 第三层光晕 */ 0 0 20px rgba(255, 255, 255, 0.3);
+        z-index: 2;
       }
 
       .background-circle {
@@ -239,7 +240,7 @@
 
       .colorBG {
         position: absolute;
-        bottom: -10px;
+        bottom: -15px;
         z-index: 3;
         width: 100%;
         display: none;
@@ -299,6 +300,30 @@
       .ripple3 {
         animation-delay: 1s; /* 延遲1秒啟動 */
       }
+
+      @keyframes rotate-clockwise {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes rotate-counterclockwise {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(-360deg);
+        }
+      }
+
+      .c041 {
+        animation: rotate-clockwise 10s linear infinite;
+      }
+      .c042 {
+        animation: rotate-counterclockwise 10s linear infinite;
+      }
     </style>
   </head>
   <body>
@@ -311,7 +336,7 @@
       />
     </div>
     <div
-      class="gameCon position-absolute d-flex flex-column align-items-center"
+      class="page2 gameCon position-absolute d-none flex-column align-items-center"
     >
       <div class="countDown d-flex justify-content-center">
         <p style="font-family: SweiSpringCJKtc-SemiBold, sans-serif">
@@ -359,6 +384,24 @@
         class="sendTxt"
       />
       <div class="circle-container">
+        <img
+          src="./image/04-circle-middle-01.png"
+          alt=""
+          style="width: 140%; position: absolute"
+          class="04circle"
+        />
+        <img
+          src="./image/04-circle-middle-02.png"
+          alt=""
+          style="width: 165%; position: absolute"
+          class="04circle"
+        />
+        <img
+          src="./image/04-circle-middle-03.png"
+          alt=""
+          style="width: 190%; position: absolute"
+          class="04circle"
+        />
         <div id="board2" class="background-circle"></div>
         <div id="board"></div>
       </div>
@@ -456,13 +499,21 @@
       <main
         class="page2 content d-none justify-content-center align-items-center flex-grow-1 flex-column"
       >
-        <div class="mainCon d-flex justify-content-center position-relative">
-          <!-- <img
-            src="./image/02-bg-circle.gif"
+        <div
+          class="mainCon d-flex justify-content-center position-relative align-items-center"
+        >
+          <img
+            src="./image/02-Rectangle-02.png"
             alt=""
-            style="width: 115%; transform: translateY(5%)"
-            class="pb-5"
-          /> -->
+            style="width: 108%; position: absolute"
+            class="04circle c041"
+          />
+          <img
+            src="./image/02-Rectangle-02.png"
+            alt=""
+            style="width: 125%; position: absolute"
+            class="04circle c042"
+          />
           <video
             autoplay=""
             name="media"
@@ -719,6 +770,7 @@
             transition: "filter 0.5s ease-out",
             filter: "blur(0px)",
           });
+          $(".maskPart").addClass("d-none");
 
           setTimeout(() => {
             $(".colorBG").hide();
@@ -762,7 +814,14 @@
             $(".countDown").addClass("d-none");
             $(".sendTxt").show();
             $(".gameCon").css("transform", "translate(-50%, -38%) scale(0.46)");
-            $(".maskPart").addClass("d-none");
+            // $(".maskPart").addClass("d-none");
+            $(".maskPart").css({
+              "background-image": 'url("./image/bg.png")',
+              "z-index": "2",
+              filter: "brightness(0.2)",
+              opacity: "1",
+            });
+            $(".04circle").hide();
             $(".container").css("filter", " brightness(25%) blur(1px)");
             enableSwipeDetection();
           }, 5000);
