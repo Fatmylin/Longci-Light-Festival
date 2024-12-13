@@ -71,7 +71,7 @@
 
       .container {
         /* width: 480px; */
-        height: 90vh;
+        /* height: 100vh; */
         /*width: 100%;
         margin-left: auto;
         margin-right: auto; */
@@ -101,7 +101,7 @@
       }
 
       .gameCon {
-        transform: translate(-50%, -38%) scale(0.6);
+        transform: translate(-50%, -50%) scale(0.6);
         top: 50%;
         left: 50%;
         transition: transform 0.5s ease-in-out;
@@ -150,7 +150,7 @@
       }
 
       .circle-container {
-        display: flex; /* Enables flexbox */
+        display: none; /* Enables flexbox */
         justify-content: center; /* Centers items horizontally */
         align-items: center; /* Centers items vertically */
         position: relative; /* Positions children relative to the container */
@@ -248,9 +248,8 @@
 
       .colorBGO {
         position: absolute;
-        bottom: 20px;
         z-index: 3;
-        width: 100%;
+        width: 230%;
         display: none;
       }
 
@@ -267,6 +266,7 @@
         align-items: center;
         transition: opacity 0.8s ease; /* 渐进效果 */
         opacity: 1; /* 初始完全不透明 */
+        display: flex;
       }
       #loading-cover.hidden {
         opacity: 0;
@@ -328,12 +328,7 @@
   </head>
   <body>
     <div id="loading-cover">
-      <img
-        src="./image/01-logo.png"
-        alt=""
-        style="width: 90%; transform: translateY(-30%)"
-        class="pb-5"
-      />
+      <img src="./image/01-logo.png" alt="" style="width: 40%" />
     </div>
     <div
       class="page2 gameCon position-absolute d-none flex-column align-items-center"
@@ -383,27 +378,30 @@
         "
         class="sendTxt"
       />
-      <div class="circle-container">
-        <img
-          src="./image/04-circle-middle-01.png"
-          alt=""
-          style="width: 140%; position: absolute"
-          class="04circle"
-        />
-        <img
-          src="./image/04-circle-middle-02.png"
-          alt=""
-          style="width: 165%; position: absolute"
-          class="04circle"
-        />
-        <img
-          src="./image/04-circle-middle-03.png"
-          alt=""
-          style="width: 190%; position: absolute"
-          class="04circle"
-        />
-        <div id="board2" class="background-circle"></div>
-        <div id="board"></div>
+      <div class="showCon d-flex justify-content-center align-items-center">
+        <img class="colorBGO" src="" alt="" />
+        <div class="circle-container">
+          <img
+            src="./image/04-circle-middle-01.png"
+            alt=""
+            style="width: 140%; position: absolute"
+            class="04circle"
+          />
+          <img
+            src="./image/04-circle-middle-02.png"
+            alt=""
+            style="width: 165%; position: absolute"
+            class="04circle"
+          />
+          <img
+            src="./image/04-circle-middle-03.png"
+            alt=""
+            style="width: 190%; position: absolute"
+            class="04circle"
+          />
+          <div id="board2" class="background-circle"></div>
+          <div id="board"></div>
+        </div>
       </div>
       <img
         src="./image/04-info.png"
@@ -419,7 +417,7 @@
       />
     </div>
     <img class="colorBG" src="./image/bg-water.png" alt="" />
-    <img class="colorBGO" src="" alt="" />
+    <!-- <img class="colorBGO" src="" alt="" /> -->
     <div class="maskPart d-none"></div>
     <div class="container d-flex flex-column">
       <header class="header">
@@ -435,63 +433,52 @@
         class="page1 content d-flex justify-content-center align-items-center flex-grow-1 flex-column"
         style="overflow: hidden"
       >
-        <div class="mainCon d-flex justify-content-center">
+        <div
+          class="mainCon d-flex justify-content-center flex-column align-items-center"
+        >
           <img
             src="./image/01-logo.png"
             alt=""
-            style="width: 90%; transform: translateY(170%)"
-            class="pb-5"
+            style="width: 70%; transform: translateY(170%)"
           />
-        </div>
-        <div class="enterP d-flex justify-content-center">
-          <!-- <img
-            src="./image/01-btn-start.png"
-            alt=""
-            style="width: 55%; transform: translateY(60%)"
-            class="pb-5"
-          /> -->
-          <!-- <img
-            src="./image/start-btn-bg-05.png"
-            alt=""
-            style="width: 30%; bottom: 19%"
-            class="position-absolute"
-          /> -->
-          <div
-            class="ripples"
-            style="
-              position: relative;
-              width: 450px;
-              height: 450px;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              bottom: -20%;
-            "
-          >
-            <img
-              src="./image/start-btn-bg-05.png"
-              alt=""
-              style="width: 25%; bottom: 43%"
-              class="position-absolute"
-            />
-            <img
-              src="./image/start-circle-01.png"
-              alt=""
-              style="width: 45%; transform-origin: center center"
-              class="position-absolute ripple1"
-            />
-            <img
-              src="./image/start-circle-01.png"
-              alt=""
-              style="width: 45%; transform-origin: center center"
-              class="position-absolute ripple2"
-            />
-            <img
-              src="./image/start-circle-01.png"
-              alt=""
-              style="width: 45%; transform-origin: center center"
-              class="position-absolute ripple3"
-            />
+          <div class="enterP d-flex justify-content-center">
+            <div
+              class="ripples"
+              style="
+                position: relative;
+                width: 450px;
+                height: 450px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                bottom: -20%;
+              "
+            >
+              <img
+                src="./image/start-btn-bg-05.png"
+                alt=""
+                style="width: 25%; bottom: 43%"
+                class="position-absolute"
+              />
+              <img
+                src="./image/start-circle-01.png"
+                alt=""
+                style="width: 45%; transform-origin: center center"
+                class="position-absolute ripple1"
+              />
+              <img
+                src="./image/start-circle-01.png"
+                alt=""
+                style="width: 45%; transform-origin: center center"
+                class="position-absolute ripple2"
+              />
+              <img
+                src="./image/start-circle-01.png"
+                alt=""
+                style="width: 45%; transform-origin: center center"
+                class="position-absolute ripple3"
+              />
+            </div>
           </div>
         </div>
       </main>
@@ -690,6 +677,12 @@
         });
     });
 
+    function setContainerHeight() {
+      const container = document.querySelector(".container");
+      container.style.height = `${window.innerHeight}px`;
+    }
+    setContainerHeight();
+
     $(document).ready(function () {
       $(".page1").on("click", function () {
         $(".page1").removeClass("d-flex");
@@ -700,7 +693,7 @@
         $(".page2").addClass("d-flex");
         $(".enterP").removeClass("d-flex");
         $(".enterP").addClass("d-none");
-        preloadImages();
+        preloadImages(imageUrls);
       });
 
       var p2touch = 0;
@@ -717,6 +710,7 @@
           $(".container").css("filter", "blur(2px)");
           $(".gameCon").css("z-index", "4");
           $("body").css("overflow", "hidden");
+          $(".circle-container").css("display", "flex");
 
           // let countdown = 10;
           // const countdownInterval = setInterval(function () {
@@ -781,7 +775,6 @@
 
     function moveCircleUp() {
       $(".sendTxt").hide();
-      $(".colorBGO").show();
       setTimeout(() => {
         $(".colorBGO").css({
           transition: "transform 1s ease-out",
@@ -837,11 +830,12 @@
           setTimeout(function () {
             endGame();
             $(".colorBG").show();
+            $(".colorBGO").show();
             $(".05info").hide();
             $(".countDown").removeClass("d-flex");
             $(".countDown").addClass("d-none");
             $(".sendTxt").show();
-            $(".gameCon").css("transform", "translate(-50%, -38%) scale(0.46)");
+            $(".gameCon").css("transform", "translate(-50%, -50%) scale(0.46)");
             // $(".maskPart").addClass("d-none");
             $(".maskPart").css({
               "background-image": 'url("./image/bg.png")',
