@@ -419,7 +419,7 @@
       />
     </div>
     <img class="colorBG" src="./image/bg-water.png" alt="" />
-    <img class="colorBGO" src="./image/bg-flower-circle.png" alt="" />
+    <img class="colorBGO" src="" alt="" />
     <div class="maskPart d-none"></div>
     <div class="container d-flex flex-column">
       <header class="header">
@@ -514,10 +514,8 @@
             style="width: 125%; position: absolute"
             class="04circle c042"
           />
-          <video
-            id="myVideo"
-          >
-          </video>
+          <!-- <video id="myVideo"></video> -->
+          <div id="videoContainer" class="video-wrapper"></div>
           <div
             class="txtCon txtCon1 position-absolute top-50 start-50 w-100"
             style="transform: translate(-40%, -55%)"
@@ -633,26 +631,64 @@
     </div>
   </body>
   <script>
-    const video = document.createElement('video');
-    video.muted = true;
+    // const video = document.createElement("video");
+    // video.muted = true;
 
-    fetch('./image/02-bg-circle_crop.webm')
-      .then(response => response.blob())
-      .then(blob => {
-        const url = URL.createObjectURL(blob);
-        video.src = url;
-        video.setAttribute('preload', 'auto');
-        video.setAttribute('name', 'media');
-        video.setAttribute('autoplay', '');
-        video.setAttribute('loop', '');
-        video.setAttribute('playsinline', '');
-        video.setAttribute('muted', '');
-        video.setAttribute("style", "width: 100%; border-radius: 100%;overflow: hidden;object-fit: fill;box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2); ")
-        document.getElementById("myVideo").replaceWith(video);
-        video.preload = 'auto';
-        video.load();
-      })
-      .catch(error => console.error('Error preloading video:', error));
+    // fetch("./image/02-bg-circle_crop.webm")
+    //   .then((response) => response.blob())
+    //   .then((blob) => {
+    //     const url = URL.createObjectURL(blob);
+    //     video.src = url;
+    //     video.setAttribute("preload", "auto");
+    //     video.setAttribute("name", "media");
+    //     video.setAttribute("autoplay", "");
+    //     video.setAttribute("loop", "");
+    //     video.setAttribute("playsinline", "");
+    //     video.setAttribute("muted", "");
+    //     video.setAttribute(
+    //       "style",
+    //       "width: 100%; border-radius: 100%;overflow: hidden;object-fit: fill;box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2); "
+    //     );
+    //     document.getElementById("myVideo").replaceWith(video);
+    //     video.preload = "auto";
+    //     video.load();
+    //   })
+    //   .catch((error) => console.error("Error preloading video:", error));
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // 提前抓取 DOM 元素
+      const videoContainer = document.getElementById("videoContainer");
+
+      // 建立並配置影片元素
+      const video = document.createElement("video");
+      video.muted = true;
+      video.setAttribute("preload", "auto");
+      video.setAttribute("autoplay", "");
+      video.setAttribute("loop", "");
+      video.setAttribute("playsinline", "");
+      video.setAttribute(
+        "style",
+        "width: 100%; border-radius: 100%; overflow: hidden; object-fit: fill; box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2);"
+      );
+
+      // 使用 Fetch 載入影片並處理錯誤
+      fetch("./image/02-bg-circle_crop.webm")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.blob();
+        })
+        .then((blob) => {
+          const videoURL = URL.createObjectURL(blob);
+          video.src = videoURL;
+          videoContainer.appendChild(video); // 將影片加入容器
+        })
+        .catch((error) => {
+          console.error("Error preloading video:", error);
+          videoContainer.innerHTML = "<p>影片載入失敗</p>"; // 顯示錯誤提示
+        });
+    });
 
     $(document).ready(function () {
       $(".page1").on("click", function () {
@@ -664,6 +700,7 @@
         $(".page2").addClass("d-flex");
         $(".enterP").removeClass("d-flex");
         $(".enterP").addClass("d-none");
+        preloadImages();
       });
 
       var p2touch = 0;
@@ -722,7 +759,7 @@
       // 等待页面完全渲染后移除遮罩
       setTimeout(() => {
         cover.classList.add("hidden");
-      }, 1000); // 可根据需要调整延迟时间
+      }, 2000); // 可根据需要调整延迟时间
     });
 
     function enableSwipeDetection() {
@@ -1140,5 +1177,22 @@
     socket.on("connect", () => {
       console.log("A user connected:", socket.id);
     });
+
+    const imageUrls = [
+      "./image/bg-fire.png",
+      "./image/bg-water.png",
+      "./image/bg-leaves.png",
+      "./image/bg-flower.png",
+      "./image/bg-light.png",
+      "./image/bg.png",
+    ];
+    function preloadImages(imageUrls) {
+      const images = [];
+      imageUrls.forEach((url) => {
+        const img = new Image();
+        img.src = url;
+        images.push(img);
+      });
+    }
   </script>
 </html>
