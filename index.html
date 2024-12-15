@@ -128,12 +128,10 @@
       }
 
       #board {
-        top: 8px;
-        left: 3px;
         position: relative;
         display: grid;
-        grid-template-columns: repeat(9, 55px);
-        grid-template-rows: repeat(8, 58px);
+        grid-template-columns: repeat(10, 49px);
+        grid-template-rows: repeat(10, 47px);
         gap: 1px;
         border-radius: 100%;
         overflow: hidden;
@@ -819,7 +817,7 @@
       const countdownInterval = setInterval(function () {
         console.log(countdown);
         $(".countNum").text(countdown);
-        countdown--;
+        // countdown--;
         console.log(countdown);
         if (countdown < 0) {
           clearInterval(countdownInterval);
@@ -851,8 +849,8 @@
       }, 1000);
     }
 
-    const rows = 9;
-    const cols = 8;
+    const rows = 10;
+    const cols = 10;
     const board = [];
     const socket = io("https://yuristudio.zapto.org/");
 
