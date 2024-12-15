@@ -552,18 +552,6 @@
           />
         </div>
         <div class="reSet d-flex justify-content-center">
-          <!-- <img
-            src="./image/08-btn-again.png"
-            alt=""
-            style="width: 80%; transform: translateY(35%)"
-            class="mt-5"
-          /> -->
-          <!-- <img
-            src="./image/end-btn-bg-05.png"
-            alt=""
-            style="width: 25%; bottom: 14.5%"
-            class="position-absolute"
-          /> -->
           <div
             class="ripples"
             style="
@@ -616,29 +604,22 @@
     </div>
   </body>
   <script>
-    // const video = document.createElement("video");
-    // video.muted = true;
+    const rows = 10;
+    const cols = 10;
+    const size = 10;
+    const board = [];
+    const socket = io("https://yuristudio.zapto.org/");
 
-    // fetch("./image/02-bg-circle_crop.webm")
-    //   .then((response) => response.blob())
-    //   .then((blob) => {
-    //     const url = URL.createObjectURL(blob);
-    //     video.src = url;
-    //     video.setAttribute("preload", "auto");
-    //     video.setAttribute("name", "media");
-    //     video.setAttribute("autoplay", "");
-    //     video.setAttribute("loop", "");
-    //     video.setAttribute("playsinline", "");
-    //     video.setAttribute("muted", "");
-    //     video.setAttribute(
-    //       "style",
-    //       "width: 100%; border-radius: 100%;overflow: hidden;object-fit: fill;box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2); "
-    //     );
-    //     document.getElementById("myVideo").replaceWith(video);
-    //     video.preload = "auto";
-    //     video.load();
-    //   })
-    //   .catch((error) => console.error("Error preloading video:", error));
+    let grid = [];
+    let gameStart = false;
+    let gameOver = false;
+    let interval;
+    let gameSpeed = 300; // 初始遊戲速度
+    let isTouching = false;
+    let startTouch = false;
+
+    // 顏色數組，對應不同的顏色
+    const aliveColors = ["blue", "green", "magenta", "red"];
 
     document.addEventListener("DOMContentLoaded", () => {
       // 提前抓取 DOM 元素
@@ -709,36 +690,6 @@
           $(".gameCon").css("z-index", "4");
           $("body").css("overflow", "hidden");
           $(".circle-container").css("display", "flex");
-
-          // let countdown = 10;
-          // const countdownInterval = setInterval(function () {
-          //   console.log(countdown);
-          //   $(".countNum").text(countdown);
-          //   countdown--;
-          //   console.log(countdown);
-          //   if (countdown < 0) {
-          //     clearInterval(countdownInterval);
-          //     $(".04info").hide();
-          //     $(".05info").show();
-          //     startGame();
-          //     stopDrawing();
-          //     setTimeout(function () {
-          //       endGame();
-          //       $(".colorBG").show();
-          //       $(".05info").hide();
-          //       $(".countDown").removeClass("d-flex");
-          //       $(".countDown").addClass("d-none");
-          //       $(".sendTxt").show();
-          //       $(".gameCon").css(
-          //         "transform",
-          //         "translate(-50%, -38%) scale(0.46)"
-          //       );
-          //       $(".maskPart").addClass("d-none");
-          //       $(".container").css("filter", " brightness(25%) blur(1px)");
-          //       enableSwipeDetection();
-          //     }, 5000);
-          //   }
-          // }, 1000);
         }
       });
       $(".reSet").on("click", function () {
@@ -769,6 +720,154 @@
           moveCircleUp();
         }
       });
+    }
+
+    const imageUrls = [
+      "./image/bg-fire.png",
+      "./image/bg-water.png",
+      "./image/bg-leaves.png",
+      "./image/bg-flower.png",
+      "./image/bg-purple.png",
+      "./image/bg.png",
+    ];
+
+    function preloadImages(imageUrls) {
+      const images = [];
+      imageUrls.forEach((url) => {
+        const img = new Image();
+        img.src = url;
+        images.push(img);
+      });
+    }
+
+    // 初始化
+    initGrid();
+
+    // Socket
+    socket.on("connect", () => {
+      console.log("A user connected:", socket.id);
+    });
+    
+    function sendAllCellColorsToSocket() {
+        console.log(allCellColors());
+        socket.emit("message", { msg: allCellColors() });
+      }
+    
+    // 遊戲邏輯開始
+    // 創建棋盤並顯示
+    function initGrid() {
+      grid = [];
+      const gridElement = document.getElementById("board");
+      gridElement.innerHTML = ""; // 清空現有內容
+      for (let row = 0; row < size; row++) {
+        let rowArr = [];
+        for (let col = 0; col < size; col++) {
+          const cell = document.createElement('div');
+          cell.dataset.row = row;
+          cell.dataset.col = col;
+          cell.classList.add('cell');
+          cell.addEventListener('click', () => toggleCell(row, col));
+          cell.addEventListener("touchstart", handleTouchStartII);
+          cell.addEventListener("touchmove", handleTouchMoveII);
+          cell.addEventListener("touchend", handleTouchEnd);
+          rowArr.push(cell);
+          gridElement.appendChild(cell);
+        }
+        console.log(rowArr)
+        grid.push(rowArr);
+      }
+    }
+
+    // 觸碰畫板
+    function handleTouchStartII(event) {
+      startPlay();
+      if (gameOver) return;
+      pauseGame();
+      isTouching = true;
+      const cell = event.target;
+      toggleCell(cell);
+    }
+
+    // 畫板畫畫
+    function handleTouchMoveII(event) {
+      if (!isTouching || gameStart || gameOver) return;
+      const touch = event.touches[0];
+      const element = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (element && element.classList.contains("cell")) {
+        toggleCell(element);
+      }
+    }
+    
+    // 改變細胞狀態
+    function toggleCell(cell) {
+      const row = parseInt(cell.dataset.row);
+      const col = parseInt(cell.dataset.col);
+      const currentColor = cell.classList[1];
+
+      if (!currentColor) {
+        cell.classList.add(aliveColors[Math.floor(Math.random() * aliveColors.length)]);
+      } else {
+        const currentIndex = aliveColors.indexOf(currentColor);
+        cell.classList.remove(currentColor);
+        const nextColor = aliveColors[(currentIndex + 1) % aliveColors.length];
+        cell.classList.add(nextColor);
+      }
+    }
+
+    function getNeighbors(row, col) {
+      const neighbors = [];
+      for (let r = row - 1; r <= row + 1; r++) {
+        for (let c = col - 1; c <= col + 1; c++) {
+          if (r >= 0 && r < size && c >= 0 && c < size && (r !== row || c !== col)) {
+            const cell = grid[r][c];
+            const color = cell.classList[1];
+            if (color) neighbors.push(color);
+          }
+        }
+      }
+      return neighbors;
+    }
+
+    // 更新棋盤狀態
+    function nextGeneration() {
+      const newGrid = [];
+      for (let row = 0; row < size; row++) {
+        const newRow = [];
+        for (let col = 0; col < size; col++) {
+          const neighbors = getNeighbors(row, col);
+          const neighborCount = {};
+
+          // 统计邻居颜色
+          neighbors.forEach(color => {
+            neighborCount[color] = (neighborCount[color] || 0) + 1;
+          });
+
+          const maxColor = Object.entries(neighborCount).reduce((max, entry) =>
+            entry[1] > max[1] ? entry : max, ['', 0])[0];
+
+          if (maxColor) {
+            newRow.push(maxColor);
+          } else {
+            newRow.push(null);
+          }
+        }
+        newGrid.push(newRow);
+      }
+
+      // 更新网格
+      for (let row = 0; row < size; row++) {
+        for (let col = 0; col < size; col++) {
+          const cell = grid[row][col];
+          const newColor = newGrid[row][col];
+          const currentColor = cell.classList[1];
+          if (newColor) {
+            cell.classList.remove(currentColor);
+            cell.classList.add(newColor);
+          } else if (currentColor) {
+            cell.classList.remove(currentColor);
+          }
+        }
+      }
     }
 
     function moveCircleUp() {
@@ -807,7 +906,6 @@
       circleContainer.style.transform = "translateY(-200vh)";
     }
 
-    let startTouch = false;
     function startPlay() {
       if (startTouch) {
         return;
@@ -849,61 +947,6 @@
       }, 1000);
     }
 
-    const rows = 10;
-    const cols = 10;
-    const board = [];
-    const socket = io("https://yuristudio.zapto.org/");
-
-    let gameStart = false;
-    let gameOver = false;
-    let interval;
-    let gameSpeed = 300; // 初始遊戲速度
-
-    // 顏色數組，對應不同的顏色
-    const aliveColors = ["magenta", "blue", "red", "green"];
-
-    // 創建棋盤並顯示
-    function createBoard() {
-      const boardElement = document.getElementById("board");
-      boardElement.innerHTML = ""; // 清空現有內容
-
-      // 創建 2D 数組並顯示所有格子
-      for (let r = 0; r < rows; r++) {
-        board[r] = [];
-        for (let c = 0; c < cols; c++) {
-          const cell = document.createElement("div");
-          cell.classList.add("cell");
-          cell.dataset.row = r;
-          cell.dataset.col = c;
-
-          cell.addEventListener("touchstart", handleTouchStart);
-          cell.addEventListener("touchmove", handleTouchMove);
-          cell.addEventListener("touchend", handleTouchEnd);
-
-          boardElement.appendChild(cell);
-          board[r][c] = false; // 初始設置所有格子為死亡
-        }
-      }
-    }
-
-    let isTouching = false;
-
-    function handleTouchStart(event) {
-      startPlay();
-      if (gameOver) return;
-      pauseGame();
-      isTouching = true;
-      const cell = event.target;
-      selCellAliveByElement(cell);
-    }
-    function handleTouchMove(event) {
-      if (!isTouching || gameStart || gameOver) return;
-      const touch = event.touches[0];
-      const element = document.elementFromPoint(touch.clientX, touch.clientY);
-      if (element && element.classList.contains("cell")) {
-        selCellAliveByElement(element);
-      }
-    }
     function handleTouchEnd() {
       if (gameOver) return;
 
@@ -911,158 +954,11 @@
       startGame();
     }
 
-    function selCellAliveByElement(cell) {
-      const row = parseInt(cell.dataset.row);
-      const col = parseInt(cell.dataset.col);
-      if (board[row][col]) return;
-      // 設定格子狀態為存活
-      board[row][col] = true;
-      updateCellColor(cell);
-    }
-
-    // 更新棋盤狀態
-    function updateBoard() {
-      const nextBoard = JSON.parse(JSON.stringify(board)); // 深拷貝當前棋盤
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          const { aliveNeighbors, neighborColors } = this.countAliveNeighbors(
-            r,
-            c
-          );
-
-          if (board[r][c]) {
-            // 如果是活的細胞
-            if (aliveNeighbors !== 2 && aliveNeighbors !== 3) {
-              nextBoard[r][c] = false; // 過少或過多活鄰居則死亡
-            }
-          } else {
-            // 如果是死的細胞
-            if (aliveNeighbors === 3) {
-              nextBoard[r][c] = true; // 恰好三個活鄰居則復活
-            }
-          }
-        }
-      }
-
-      // 更新棋盤
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          const cell = document.querySelector(
-            `[data-row="${r}"][data-col="${c}"]`
-          );
-          const { aliveNeighbors, neighborColor } = this.countAliveNeighbors(
-            r,
-            c
-          );
-
-          // 只有當細胞狀態改變時才更新顏色
-          if (board[r][c] !== nextBoard[r][c]) {
-            if (nextBoard[r][c]) {
-              updateCellColor(cell, neighborColor);
-            } else {
-              cell.classList.remove(...aliveColors); // 移除所有顏色
-            }
-          }
-
-          board[r][c] = nextBoard[r][c];
-        }
-      }
-    }
-
-    // 更新細胞顏色
-    function updateCellColor(cell, color) {
-      const colorIndex = color
-        ? aliveColors.indexOf(color)
-        : Math.floor(Math.random() * aliveColors.length); // 顏色循環
-      cell.classList.add(aliveColors[colorIndex]);
-    }
-
-    // 計算周圍活鄰居的數量
-    // function countAliveNeighbors(x, y) {
-    //   let count = 0;
-    //   const neighborColors = {};
-
-    //   for (let i = -1; i <= 1; i++) {
-    //     for (let j = -1; j <= 1; j++) {
-    //       if (i === 0 && j === 0) continue;
-
-    //       const nx = x + i;
-    //       const ny = y + j;
-
-    //       if (nx >= 0 && nx < this.gridSize && ny >= 0 && ny < this.gridSize) {
-    //         const color = this.currentGeneration[nx][ny];
-    //         if (color !== this.deadColor) {
-    //           count++;
-    //           neighborColors[color] = (neighborColors[color] || 0) + 1;
-    //         }
-    //       }
-    //     }
-    //   }
-
-    //   return { aliveNeighbors: count, neighborColors };
-    // }
-
-    function getColorClassFromCell(cell) {
-      for (const color of aliveColors) {
-        if (cell.classList.contains(color)) {
-          return color;
-        }
-      }
-      return null;
-    }
-
-    function countAliveNeighbors(row, col) {
-      const directions = [
-        [-1, -1],
-        [-1, 0],
-        [-1, 1],
-        [0, -1],
-        [0, 1],
-        [1, -1],
-        [1, 0],
-        [1, 1],
-      ];
-
-      let count = 0;
-      const neighborColors = {};
-
-      directions.forEach(([dr, dc]) => {
-        const newRow = row + dr;
-        const newCol = col + dc;
-        if (
-          newRow >= 0 &&
-          newRow < rows &&
-          newCol >= 0 &&
-          newCol < cols &&
-          board[newRow][newCol]
-        ) {
-          count++;
-
-          const cell = document.querySelector(
-            `[data-row="${newRow}"][data-col="${newCol}"]`
-          );
-          const color = getColorClassFromCell(cell);
-          neighborColors[color] = (neighborColors[color] || 0) + 1;
-        }
-      });
-
-      let dominantColor = null;
-      let maxCount = 0;
-      for (const [color, colorCount] of Object.entries(neighborColors)) {
-        if (colorCount > maxCount) {
-          maxCount = colorCount;
-          dominantColor = color;
-        }
-      }
-
-      return { aliveNeighbors: count, neighborColor: dominantColor };
-    }
-
     // 開始遊戲
     function startGame() {
       console.log("start");
       if (interval) clearInterval(interval); // 防止重複啟動
-      interval = setInterval(updateBoard, gameSpeed); // 使用設置的速度
+      interval = setInterval(nextGeneration, gameSpeed); // 使用設置的速度
       gameStart = true;
     }
 
@@ -1077,7 +973,6 @@
     function endGame() {
       console.log("end");
       clearInterval(interval); // 停止遊戲
-      // console.log(allCellColors());
       const result = findMostFrequentString(allCellColors());
       console.log(result);
       if (result == "red") {
@@ -1126,25 +1021,9 @@
       gameOver = true;
     }
 
-    // 清空棋盤
-    function clearBoard() {
-      if (interval) clearInterval(interval); // 停止遊戲
-      createBoard(); // 重建棋盤
-      gameStart = false;
-    }
-
-    // 改變遊戲速度
-    function changeSpeed(value) {
-      gameSpeed = parseInt(value);
-      if (interval) {
-        clearInterval(interval);
-        interval = setInterval(updateBoard, gameSpeed); // 更新遊戲速度
-      }
-    }
-
     function allCellColors() {
       const colors = [];
-      for (let r = 0; r < rows; r++) {
+      for (let r = rows - 1; r > -1; r--) {
         for (let c = 0; c < cols; c++) {
           const cell = document.querySelector(
             `[data-row="${r}"][data-col="${c}"]`
@@ -1158,33 +1037,6 @@
       }
       return colors;
     }
-
-    function sendAllCellColorsToSocket() {
-      console.log(allCellColors());
-      socket.emit("message", { msg: allCellColors() });
-    }
-
-    // 初始化
-    createBoard();
-    socket.on("connect", () => {
-      console.log("A user connected:", socket.id);
-    });
-
-    const imageUrls = [
-      "./image/bg-fire.png",
-      "./image/bg-water.png",
-      "./image/bg-leaves.png",
-      "./image/bg-flower.png",
-      "./image/bg-purple.png",
-      "./image/bg.png",
-    ];
-    function preloadImages(imageUrls) {
-      const images = [];
-      imageUrls.forEach((url) => {
-        const img = new Image();
-        img.src = url;
-        images.push(img);
-      });
-    }
+    // 遊戲邏輯結束
   </script>
 </html>
