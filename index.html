@@ -817,7 +817,7 @@
       const countdownInterval = setInterval(function () {
         console.log(countdown);
         $(".countNum").text(countdown);
-        // countdown--;
+        countdown--;
         console.log(countdown);
         if (countdown < 0) {
           clearInterval(countdownInterval);
@@ -1095,8 +1095,8 @@
         document.querySelector(".colorBGO").src =
           "./image/bg-flower-circle.png";
       } else {
-        document.querySelector(".colorBG").src = "./image/bg-light.png";
-        document.querySelector(".colorBGO").src = "./image/bg-light-circle.png";
+        document.querySelector(".colorBG").src = "./image/bg-purple.png";
+        document.querySelector(".colorBGO").src = "./image/bg-purple-circle.png";
       }
       gameStart = false;
       gameOver = true;
@@ -1175,7 +1175,7 @@
       "./image/bg-water.png",
       "./image/bg-leaves.png",
       "./image/bg-flower.png",
-      "./image/bg-light.png",
+      "./image/bg-purple.png",
       "./image/bg.png",
     ];
     function preloadImages(imageUrls) {
