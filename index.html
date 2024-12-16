@@ -122,7 +122,7 @@
 
       .background-circle {
         background-image: url(./image/bg-circle-final.png);
-        background-size: 100%;
+        background-size: 88%;
         background-position: center;
         background-repeat: no-repeat; /* or 'repeat', 'repeat-x', 'repeat-y' */
       }
@@ -135,16 +135,34 @@
         gap: 1px;
         border-radius: 100%;
         overflow: hidden;
+        transform: scale(0.92);
       }
 
       #board2 {
-        display: grid;
-        grid-template-columns: repeat(15, 45px);
-        grid-template-rows: repeat(15, 45px);
+        /* display: grid; */
+        /* grid-template-columns: repeat(15, 45px);
+        grid-template-rows: repeat(15, 45px); */
+        display: flex;
         gap: 1px;
         border-radius: 100%;
         overflow: hidden;
         position: absolute;
+        width: 128%;
+        height: 128%;
+      }
+
+      #boardShadow {
+        /* display: grid; */
+        /* grid-template-columns: repeat(15, 45px);
+        grid-template-rows: repeat(15, 45px); */
+        display: flex;
+        gap: 1px;
+        border-radius: 100%;
+        overflow: hidden;
+        position: absolute;
+        width: 113%;
+        height: 113%;
+        box-shadow: 0 -10px 20px 10px;
       }
 
       .circle-container {
@@ -152,6 +170,7 @@
         justify-content: center; /* Centers items horizontally */
         align-items: center; /* Centers items vertically */
         position: relative; /* Positions children relative to the container */
+        transition: transform 0.5s ease-in-out;
       }
 
       .cell {
@@ -329,6 +348,35 @@
       <img src="./image/01-logo.png" alt="" style="width: 40%" />
     </div>
     <div
+      class="d-flex w-100 justify-content-center flex-column align-items-center"
+      style="position: absolute"
+    >
+      <img
+        src="./image/07-pic-up.png"
+        alt=""
+        style="
+          width: 45%;
+          display: none;
+          position: relative;
+          z-index: 3;
+          top: 26px;
+        "
+        class="sendTxt"
+      />
+      <img
+        src="./image/07-p-01.png"
+        alt=""
+        style="
+          width: 35%;
+          display: none;
+          position: relative;
+          z-index: 3;
+          bottom: 12px;
+        "
+        class="sendTxt"
+      />
+    </div>
+    <div
       class="page2 gameCon position-absolute d-none flex-column align-items-center"
     >
       <div class="countDown d-flex justify-content-center">
@@ -352,30 +400,6 @@
         </p>
         <p style="font-family: SweiSpringCJKtc-SemiBold, sans-serif">秒</p>
       </div>
-      <img
-        src="./image/07-pic-up.png"
-        alt=""
-        style="
-          width: 80%;
-          display: none;
-          bottom: 4rem;
-          position: absolute;
-          bottom: 70%;
-        "
-        class="sendTxt"
-      />
-      <img
-        src="./image/07-p-01.png"
-        alt=""
-        style="
-          width: 75%;
-          margin-top: 8rem;
-          display: none;
-          bottom: 5rem;
-          position: relative;
-        "
-        class="sendTxt"
-      />
       <div class="showCon d-flex justify-content-center align-items-center">
         <img class="colorBGO" src="" alt="" />
         <div class="circle-container">
@@ -398,6 +422,7 @@
             class="04circle"
           />
           <div id="board2" class="background-circle"></div>
+          <div id="boardShadow"></div>
           <div id="board"></div>
         </div>
       </div>
@@ -747,12 +772,12 @@
     socket.on("connect", () => {
       console.log("A user connected:", socket.id);
     });
-    
+
     function sendAllCellColorsToSocket() {
-        console.log(allCellColors());
-        socket.emit("message", { msg: allCellColors() });
-      }
-    
+      console.log(allCellColors());
+      socket.emit("message", { msg: allCellColors() });
+    }
+
     // 遊戲邏輯開始
     // 創建棋盤並顯示
     function initGrid() {
@@ -762,18 +787,18 @@
       for (let row = 0; row < size; row++) {
         let rowArr = [];
         for (let col = 0; col < size; col++) {
-          const cell = document.createElement('div');
+          const cell = document.createElement("div");
           cell.dataset.row = row;
           cell.dataset.col = col;
-          cell.classList.add('cell');
-          cell.addEventListener('click', () => toggleCell(row, col));
+          cell.classList.add("cell");
+          cell.addEventListener("click", () => toggleCell(row, col));
           cell.addEventListener("touchstart", handleTouchStartII);
           cell.addEventListener("touchmove", handleTouchMoveII);
           cell.addEventListener("touchend", handleTouchEnd);
           rowArr.push(cell);
           gridElement.appendChild(cell);
         }
-        console.log(rowArr)
+        console.log(rowArr);
         grid.push(rowArr);
       }
     }
@@ -797,7 +822,7 @@
         toggleCell(element);
       }
     }
-    
+
     // 改變細胞狀態
     function toggleCell(cell) {
       const row = parseInt(cell.dataset.row);
@@ -805,7 +830,9 @@
       const currentColor = cell.classList[1];
 
       if (!currentColor) {
-        cell.classList.add(aliveColors[Math.floor(Math.random() * aliveColors.length)]);
+        cell.classList.add(
+          aliveColors[Math.floor(Math.random() * aliveColors.length)]
+        );
       } else {
         const currentIndex = aliveColors.indexOf(currentColor);
         cell.classList.remove(currentColor);
@@ -818,7 +845,13 @@
       const neighbors = [];
       for (let r = row - 1; r <= row + 1; r++) {
         for (let c = col - 1; c <= col + 1; c++) {
-          if (r >= 0 && r < size && c >= 0 && c < size && (r !== row || c !== col)) {
+          if (
+            r >= 0 &&
+            r < size &&
+            c >= 0 &&
+            c < size &&
+            (r !== row || c !== col)
+          ) {
             const cell = grid[r][c];
             const color = cell.classList[1];
             if (color) neighbors.push(color);
@@ -838,12 +871,14 @@
           const neighborCount = {};
 
           // 统计邻居颜色
-          neighbors.forEach(color => {
+          neighbors.forEach((color) => {
             neighborCount[color] = (neighborCount[color] || 0) + 1;
           });
 
-          const maxColor = Object.entries(neighborCount).reduce((max, entry) =>
-            entry[1] > max[1] ? entry : max, ['', 0])[0];
+          const maxColor = Object.entries(neighborCount).reduce(
+            (max, entry) => (entry[1] > max[1] ? entry : max),
+            ["", 0]
+          )[0];
 
           if (maxColor) {
             newRow.push(maxColor);
@@ -875,7 +910,7 @@
       setTimeout(() => {
         $(".colorBGO").css({
           transition: "transform 1s ease-out",
-          transform: "rotate(180deg)",
+          transform: "rotate(180deg) scale(0.8)",
         });
 
         setTimeout(() => {
@@ -931,7 +966,9 @@
             $(".countDown").removeClass("d-flex");
             $(".countDown").addClass("d-none");
             $(".sendTxt").show();
-            $(".gameCon").css("transform", "translate(-50%, -50%) scale(0.46)");
+            $(".circle-container").css("transform", "scale(0.75)");
+            $(".colorBGO").css("transform", "scale(0.8)");
+            $(".showCon").css("transform", "translateY(25%)");
             // $(".maskPart").addClass("d-none");
             $(".maskPart").css({
               "background-image": 'url("./image/bg.png")',
@@ -975,23 +1012,30 @@
       clearInterval(interval); // 停止遊戲
       const result = findMostFrequentString(allCellColors());
       console.log(result);
+      const boardShadow = document.getElementById("boardShadow");
       if (result == "red") {
         document.querySelector(".colorBG").src = "./image/bg-fire.png";
         document.querySelector(".colorBGO").src = "./image/bg-fire-circle.png";
+        boardShadow.style.boxShadow = "0 -6px 20px 10px #C36868";
       } else if (result == "blue") {
         document.querySelector(".colorBG").src = "./image/bg-water.png";
         document.querySelector(".colorBGO").src = "./image/bg-water-circle.png";
+        boardShadow.style.boxShadow = "0 -6px 20px 10px #5F73CE";
       } else if (result == "green") {
         document.querySelector(".colorBG").src = "./image/bg-leaves.png";
         document.querySelector(".colorBGO").src =
           "./image/bg-leaves-circle.png";
+        boardShadow.style.boxShadow = "0 -6px 20px 10px #4EA67E";
       } else if (result == "magenta") {
         document.querySelector(".colorBG").src = "./image/bg-flower.png";
         document.querySelector(".colorBGO").src =
           "./image/bg-flower-circle.png";
+        boardShadow.style.boxShadow = "0 -6px 20px 10px #5F1E3B";
       } else {
         document.querySelector(".colorBG").src = "./image/bg-purple.png";
-        document.querySelector(".colorBGO").src = "./image/bg-purple-circle.png";
+        document.querySelector(".colorBGO").src =
+          "./image/bg-purple-circle.png";
+        boardShadow.style.boxShadow = "0 -6px 20px 10px #5F73CE";
       }
       gameStart = false;
       gameOver = true;
