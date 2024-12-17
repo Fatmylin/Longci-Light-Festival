@@ -94,7 +94,7 @@
         position: absolute;
         background-size: cover;
         background-repeat: no-repeat;
-        opacity: 0.2;
+        opacity: 0.8;
         background-blend-mode: overlay;
         z-index: 3;
         /* pointer-events: none; */
@@ -162,7 +162,7 @@
         position: absolute;
         width: 113%;
         height: 113%;
-        box-shadow: 0 -10px 20px 10px;
+        box-shadow: 0 0px 20px 10px rgba(255, 255, 255, 0.7);
       }
 
       .circle-container {
@@ -456,64 +456,114 @@
     <!-- <img class="colorBGO" src="" alt="" /> -->
     <div class="maskPart d-none"></div>
     <div class="container-bg d-flex flex-column">
-      <video 
+      <video
         id="bg-webm"
-        src="./image/bg.webm" 
-        loop muted autoplay playsinline
+        src="./image/bg.webm"
+        loop
+        muted
+        autoplay
+        playsinline
         style="position: absolute; width: 100%"
       ></video>
       <header class="header">
         <div class="topTxt_p1 d-flex justify-content-center pt-3 page1">
-          <img src="./image/01-p-top.png" alt="" style="width: 40%;z-index: 1;position: relative;" />
+          <img
+            src="./image/01-p-top.png"
+            alt=""
+            style="width: 40%; z-index: 1; position: relative"
+          />
         </div>
         <div class="topTxt_p1 d-none justify-content-center pt-4 pageH2">
-          <img src="./image/02-logo.png" alt="" style="width: 30%;z-index: 1;position: relative;" />
+          <img
+            src="./image/02-logo.png"
+            alt=""
+            style="width: 30%; z-index: 1; position: relative"
+          />
         </div>
       </header>
 
-      <main class="page3 content d-none justify-content-center align-items-center flex-grow-1 flex-column"
-        style="overflow: hidden">
-        <div class="mainCon d-flex justify-content-center position-relative flex-column w-100 align-items-center"
-          style="transform: translateY(100%)">
+      <main
+        class="page3 content d-none justify-content-center align-items-center flex-grow-1 flex-column"
+        style="overflow: hidden"
+      >
+        <div
+          class="mainCon d-flex justify-content-center position-relative flex-column w-100 align-items-center"
+          style="transform: translateY(100%)"
+        >
           <img src="./image/08-h1.png" alt="" style="width: 90%" class="mb-3" />
           <!-- <img
                   src="./image/08-h2.png"
                   alt=""
                   style="width: 50%; transform: translateY(15%)"
                 /> -->
-          <div class="endTxt d-flex flex-column align-items-center text-white"
-            style="font-family: SweiSpringCJKtc-SemiBold, sans-serif">
+          <div
+            class="endTxt d-flex flex-column align-items-center text-white"
+            style="font-family: SweiSpringCJKtc-SemiBold, sans-serif"
+          >
             <p>請看向前方</p>
             <p>山岳已悄然承載你的印記</p>
             <p>生命的漣漪正隨光影綻放</p>
           </div>
         </div>
         <div class="reSet d-flex justify-content-center">
-          <div class="ripples" style="
-                    position: relative;
-                    width: 450px;
-                    height: 450px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    bottom: -20%;
-                  ">
-            <img src="./image/end-btn-bg-05.png" alt="" style="width: 22%; bottom: 43.5%" class="position-absolute" />
-            <img src="./image/end-btn-bg-02.png" alt="" style="width: 60%; transform-origin: center center"
-              class="position-absolute ripple1" />
-            <img src="./image/end-btn-bg-02.png" alt="" style="width: 60%; transform-origin: center center"
-              class="position-absolute ripple2" />
-            <img src="./image/end-btn-bg-02.png" alt="" style="width: 60%; transform-origin: center center"
-              class="position-absolute ripple3" />
+          <div
+            class="ripples"
+            style="
+              position: relative;
+              width: 450px;
+              height: 450px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              bottom: -20%;
+            "
+          >
+            <img
+              src="./image/end-btn-bg-05.png"
+              alt=""
+              style="width: 22%; bottom: 43.5%"
+              class="position-absolute"
+            />
+            <img
+              src="./image/end-btn-bg-02.png"
+              alt=""
+              style="width: 60%; transform-origin: center center"
+              class="position-absolute ripple1"
+            />
+            <img
+              src="./image/end-btn-bg-02.png"
+              alt=""
+              style="width: 60%; transform-origin: center center"
+              class="position-absolute ripple2"
+            />
+            <img
+              src="./image/end-btn-bg-02.png"
+              alt=""
+              style="width: 60%; transform-origin: center center"
+              class="position-absolute ripple3"
+            />
           </div>
         </div>
       </main>
 
-
-      <main class="page2 content op-0 justify-content-center align-items-center flex-grow-1 flex-column">
-        <div class="mainCon d-flex justify-content-center position-relative align-items-center">
-          <img src="./image/02-Rectangle-02.png" alt="" style="width: 108%; position: absolute" class="04circle c041" />
-          <img src="./image/02-Rectangle-02.png" alt="" style="width: 125%; position: absolute" class="04circle c042" />
+      <main
+        class="page2 content op-0 justify-content-center align-items-center flex-grow-1 flex-column"
+      >
+        <div
+          class="mainCon d-flex justify-content-center position-relative align-items-center"
+        >
+          <img
+            src="./image/02-Rectangle-02.png"
+            alt=""
+            style="width: 108%; position: absolute"
+            class="04circle c041"
+          />
+          <img
+            src="./image/02-Rectangle-02.png"
+            alt=""
+            style="width: 125%; position: absolute"
+            class="04circle c042"
+          />
           <!-- <img
                   src="./image/02-bg-circle.gif"
                   alt=""
@@ -525,31 +575,60 @@
                     box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2);
                   "
                 /> -->
-          <video src="./image/02-bg-circle.webm" style="
-                    width: 100%;
-                    border-radius: 100%;
-                    overflow: hidden;
-                    object-fit: fill;
-                    box-shadow: 0px 0px 28px rgba(255, 255, 255, 1.2);
-                  " loop muted autoplay playsinline></video>
-          <div class="txtCon txtCon1 position-absolute top-50 start-50 w-100" style="transform: translate(-40%, -55%)">
+          <video
+            src="./image/02-bg-circle.webm"
+            style="
+              width: 95%;
+              border-radius: 100%;
+              overflow: hidden;
+              object-fit: fill;
+              box-shadow: 0px 0px 28px rgba(255, 255, 255, 1.2);
+            "
+            loop
+            muted
+            autoplay
+            playsinline
+          ></video>
+          <div
+            class="txtCon txtCon1 position-absolute top-50 start-50 w-100"
+            style="transform: translate(-40%, -55%)"
+          >
             <img src="./image/02-p-01.png" alt="" style="width: 80%" />
-            <img src="./image/02-p-02.png" alt="" style="width: 80%" class="mt-4" />
+            <img
+              src="./image/02-p-02.png"
+              alt=""
+              style="width: 80%"
+              class="mt-4"
+            />
           </div>
-          <div class="txtCon txtCon2 position-absolute top-50 start-50 w-100"
-            style="transform: translate(-40%, -55%); display: none">
+          <div
+            class="txtCon txtCon2 position-absolute top-50 start-50 w-100"
+            style="transform: translate(-40%, -55%); display: none"
+          >
             <img src="./image/03-p-03.png" alt="" style="width: 80%" />
-            <img src="./image/04-p-04.png" alt="" style="width: 80%" class="mt-4" />
+            <img
+              src="./image/04-p-04.png"
+              alt=""
+              style="width: 80%"
+              class="mt-4"
+            />
           </div>
         </div>
-        <div class="nextTip position-absolute d-flex justify-content-center" style="bottom: 8%">
-          <img src="./image/02-info-TouchScreen.png" alt="" style="width: 75%; transform: translateY(5%)" />
+        <div
+          class="nextTip position-absolute d-flex justify-content-center"
+          style="bottom: 8%"
+        >
+          <img
+            src="./image/02-info-TouchScreen.png"
+            alt=""
+            style="width: 75%; transform: translateY(5%)"
+          />
         </div>
       </main>
 
       <main
         class="page1 content d-flex justify-content-center align-items-center flex-grow-1 flex-column"
-        style="overflow: hidden;position: absolute; width: 100%; height: 100%;"
+        style="overflow: hidden; position: absolute; width: 100%; height: 100%"
       >
         <div
           class="mainCon d-flex justify-content-center flex-column align-items-center"
@@ -634,30 +713,30 @@
     function setContainerHeight() {
       const container = document.querySelector(".container-bg");
       container.style.height = `${window.innerHeight}px`;
-      const bgVideo = document.querySelector("#bg-webm")
+      const bgVideo = document.querySelector("#bg-webm");
       bgVideo.style.height = `${window.innerHeight}px`;
     }
 
     setContainerHeight();
 
     const imageUrls = [
-        "./image/bg-fire.png",
-        "./image/bg-water.png",
-        "./image/bg-leaves.png",
-        "./image/bg-flower.png",
-        "./image/bg-purple.png",
-        "./image/bg-fire-circle.png",
-        "./image/bg-water-circle.png",
-        "./image/bg-leaves-circle.png",
-        "./image/bg-flower-circle.png",
-        "./image/bg-purple-circle.png",
-        "./image/bg.png",
-        "./image/bg-circle-final.png",
-        "./image/pic-cell-pink.png",
-        "./image/pic-cell-green.png",
-        "./image/pic-cell-red.png",
-        "./image/pic-cell-blue.png",
-      ];
+      "./image/bg-fire.png",
+      "./image/bg-water.png",
+      "./image/bg-leaves.png",
+      "./image/bg-flower.png",
+      "./image/bg-purple.png",
+      "./image/bg-fire-circle.png",
+      "./image/bg-water-circle.png",
+      "./image/bg-leaves-circle.png",
+      "./image/bg-flower-circle.png",
+      "./image/bg-purple-circle.png",
+      "./image/bg.png",
+      "./image/bg-circle-final.png",
+      "./image/pic-cell-pink.png",
+      "./image/pic-cell-green.png",
+      "./image/pic-cell-red.png",
+      "./image/pic-cell-blue.png",
+    ];
 
     preloadImages(imageUrls);
 
@@ -685,7 +764,7 @@
           $(".maskPart").removeClass("d-none");
           $(".page2 .mainCon").removeClass("d-flex");
           $(".page2 .mainCon").addClass("d-none");
-          $(".container").css("filter", "blur(2px)");
+          $(".container-bg").css("filter", "blur(2px)");
           $(".gameCon").css("z-index", "4");
           $("body").css("overflow", "hidden");
           $(".circle-container").css("display", "flex");
@@ -767,7 +846,7 @@
 
         grid.push(rowArr);
       }
-      console.log(grid)
+      console.log(grid);
     }
 
     // 觸碰畫板
@@ -805,9 +884,14 @@
 
     function getNeighbors(x, y) {
       const deltas = [
-        [-1, -1], [-1, 0], [-1, 1],
-        [0, -1], [0, 1],
-        [1, -1], [1, 0], [1, 1]
+        [-1, -1],
+        [-1, 0],
+        [-1, 1],
+        [0, -1],
+        [0, 1],
+        [1, -1],
+        [1, 0],
+        [1, 1],
       ];
       return deltas.map(([dx, dy]) => {
         const nx = x + dx;
@@ -822,12 +906,12 @@
     // 更新棋盤狀態
     function nextGeneration() {
       const newGrid = [];
-      console.log(grid)
+      console.log(grid);
       for (let row = 0; row < size; row++) {
         const newRow = [];
         for (let col = 0; col < size; col++) {
-          const nextColor = getNextState(row, col)
-          console.log(nextColor)
+          const nextColor = getNextState(row, col);
+          console.log(nextColor);
           if (nextColor == deadColor) {
             newRow.push(deadColor);
           } else {
@@ -854,26 +938,32 @@
       }
     }
 
-  function getNextState(x, y) {
-    const neighbors = getNeighbors(x, y);
-    const aliveNeighbors = neighbors.filter(color => aliveColors.includes(color));
-    const currentColor = grid[y][x].classList[1]
+    function getNextState(x, y) {
+      const neighbors = getNeighbors(x, y);
+      const aliveNeighbors = neighbors.filter((color) =>
+        aliveColors.includes(color)
+      );
+      const currentColor = grid[y][x].classList[1];
 
-    if (currentColor !== deadColor) {
-      // 存活細胞：2 或 3 個相鄰存活細胞繼續存活
-      return aliveNeighbors.length === 2 || aliveNeighbors.length === 3 ? currentColor : deadColor;
-    } else {
-      // 死亡細胞：3 個相鄰存活細胞則重生
-      if (aliveNeighbors.length === 3) {
-        const colorCounts = aliveNeighbors.reduce((counts, color) => {
-          counts[color] = (counts[color] || 0) + 1;
-          return counts;
-        }, {});
-        return Object.keys(colorCounts).reduce((a, b) => (colorCounts[a] > colorCounts[b] ? a : b));
+      if (currentColor !== deadColor) {
+        // 存活細胞：2 或 3 個相鄰存活細胞繼續存活
+        return aliveNeighbors.length === 2 || aliveNeighbors.length === 3
+          ? currentColor
+          : deadColor;
+      } else {
+        // 死亡細胞：3 個相鄰存活細胞則重生
+        if (aliveNeighbors.length === 3) {
+          const colorCounts = aliveNeighbors.reduce((counts, color) => {
+            counts[color] = (counts[color] || 0) + 1;
+            return counts;
+          }, {});
+          return Object.keys(colorCounts).reduce((a, b) =>
+            colorCounts[a] > colorCounts[b] ? a : b
+          );
+        }
+        return deadColor;
       }
-      return deadColor;
     }
-  }
 
     function moveCircleUp() {
       $(".sendTxt").hide();
@@ -889,7 +979,7 @@
             opacity: 0,
           });
 
-          $(".container").css({
+          $(".container-bg").css({
             transition: "filter 0.5s ease-out",
             filter: "blur(0px)",
           });
@@ -947,7 +1037,7 @@
               opacity: "1",
             });
             $(".04circle").hide();
-            $(".container").css("filter", " brightness(25%) blur(1px)");
+            $(".container-bg").css("filter", " brightness(25%) blur(1px)");
             enableSwipeDetection();
           }, 5000);
         }
