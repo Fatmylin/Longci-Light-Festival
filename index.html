@@ -533,7 +533,7 @@
             style="width: 125%; position: absolute"
             class="04circle c042"
           />
-          <img
+          <!-- <img
             src="./image/02-bg-circle.gif"
             alt=""
             style="
@@ -543,7 +543,20 @@
               object-fit: fill;
               box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2);
             "
-          />
+          /> -->
+          <video 
+            src="./image/02-bg-circle.webm"
+            style="
+              width: 100%;
+              border-radius: 100%;
+              overflow: hidden;
+              object-fit: fill;
+              box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2);
+            "
+            loop
+            muted
+            autoplay
+          ></video>
           <div
             class="txtCon txtCon1 position-absolute top-50 start-50 w-100"
             style="transform: translate(-40%, -55%)"
@@ -681,6 +694,20 @@
     }
     setContainerHeight();
 
+    const imageUrls = [
+        "./image/bg-fire.png",
+        "./image/bg-water.png",
+        "./image/bg-leaves.png",
+        "./image/bg-flower.png",
+        "./image/bg-purple.png",
+        "./image/bg.png",
+        "./image/bg-circle-final.png",
+        "./image/pic-cell-pink.png",
+        "./image/pic-cell-green.png",
+        "./image/pic-cell-red.png",
+        "./image/pic-cell-blue.png",
+      ];
+
     preloadImages(imageUrls);
 
     $(document).ready(function () {
@@ -743,20 +770,6 @@
         }
       });
     }
-
-    const imageUrls = [
-      "./image/bg-fire.png",
-      "./image/bg-water.png",
-      "./image/bg-leaves.png",
-      "./image/bg-flower.png",
-      "./image/bg-purple.png",
-      "./image/bg.png",
-      "./image/bg-circle-final.png",
-      "./image/pic-cell-pink.png",
-      "./image/pic-cell-green.png",
-      "./image/pic-cell-red.png",
-      "./image/pic-cell-blue.png",
-    ];
 
     function preloadImages(imageUrls) {
       const images = [];
