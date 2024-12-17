@@ -341,6 +341,15 @@
       .c042 {
         animation: rotate-counterclockwise 10s linear infinite;
       }
+
+      .endTxt {
+        align-items: baseline;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.6),
+          /* 第一层光晕 */ 0 0 10px rgba(255, 255, 255, 0.5),
+          /* 第二层光晕 */ 0 0 15px rgba(255, 255, 255, 0.4),
+          /* 第三层光晕 */ 0 0 20px rgba(255, 255, 255, 0.3);
+        font-size: small;
+      }
     </style>
   </head>
   <body>
@@ -524,8 +533,17 @@
             style="width: 125%; position: absolute"
             class="04circle c042"
           />
-          <!-- <video id="myVideo"></video> -->
-          <div id="videoContainer" class="video-wrapper"></div>
+          <img
+            src="./image/02-bg-circle.gif"
+            alt=""
+            style="
+              width: 100%;
+              border-radius: 100%;
+              overflow: hidden;
+              object-fit: fill;
+              box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2);
+            "
+          />
           <div
             class="txtCon txtCon1 position-absolute top-50 start-50 w-100"
             style="transform: translate(-40%, -55%)"
@@ -551,12 +569,14 @@
             />
           </div>
         </div>
-        <div class="enterP d-flex justify-content-center">
+        <div
+          class="nextTip position-absolute d-flex justify-content-center"
+          style="bottom: 8%"
+        >
           <img
             src="./image/02-info-TouchScreen.png"
             alt=""
             style="width: 75%; transform: translateY(5%)"
-            class="pb-5"
           />
         </div>
       </main>
@@ -569,12 +589,20 @@
           class="mainCon d-flex justify-content-center position-relative flex-column w-100 align-items-center"
           style="transform: translateY(100%)"
         >
-          <img src="./image/08-h1.png" alt="" style="width: 90%" class="mb-2" />
-          <img
+          <img src="./image/08-h1.png" alt="" style="width: 90%" class="mb-3" />
+          <!-- <img
             src="./image/08-h2.png"
             alt=""
             style="width: 50%; transform: translateY(15%)"
-          />
+          /> -->
+          <div
+            class="endTxt d-flex flex-column align-items-center text-white"
+            style="font-family: SweiSpringCJKtc-SemiBold, sans-serif"
+          >
+            <p>請看向前方</p>
+            <p>山岳已悄然承載你的印記</p>
+            <p>生命的漣漪正隨光影綻放</p>
+          </div>
         </div>
         <div class="reSet d-flex justify-content-center">
           <div
@@ -646,41 +674,6 @@
     // 顏色數組，對應不同的顏色
     const aliveColors = ["blue", "green", "magenta", "red"];
 
-    document.addEventListener("DOMContentLoaded", () => {
-      // 提前抓取 DOM 元素
-      const videoContainer = document.getElementById("videoContainer");
-
-      // 建立並配置影片元素
-      const video = document.createElement("video");
-      video.muted = true;
-      video.setAttribute("preload", "auto");
-      video.setAttribute("autoplay", "");
-      video.setAttribute("loop", "");
-      video.setAttribute("playsinline", "");
-      video.setAttribute(
-        "style",
-        "width: 100%; border-radius: 100%; overflow: hidden; object-fit: fill; box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2);"
-      );
-
-      // 使用 Fetch 載入影片並處理錯誤
-      fetch("./image/02-bg-circle_crop.webm")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.blob();
-        })
-        .then((blob) => {
-          const videoURL = URL.createObjectURL(blob);
-          video.src = videoURL;
-          videoContainer.appendChild(video); // 將影片加入容器
-        })
-        .catch((error) => {
-          console.error("Error preloading video:", error);
-          videoContainer.innerHTML = "<p>影片載入失敗</p>"; // 顯示錯誤提示
-        });
-    });
-
     function setContainerHeight() {
       const container = document.querySelector(".container");
       container.style.height = `${window.innerHeight}px`;
@@ -715,6 +708,8 @@
           $(".gameCon").css("z-index", "4");
           $("body").css("overflow", "hidden");
           $(".circle-container").css("display", "flex");
+          $(".nextTip").removeClass("d-flex");
+          $(".nextTip").addClass("d-none");
         }
       });
       $(".reSet").on("click", function () {
