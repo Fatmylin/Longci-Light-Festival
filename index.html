@@ -459,7 +459,7 @@
       <video 
         id="bg-webm"
         src="./image/bg.webm" 
-        loop muted autoplay
+        loop muted autoplay playsinline
         style="position: absolute; width: 100%"
       ></video>
       <header class="header">
@@ -637,6 +637,7 @@
       const bgVideo = document.querySelector("#bg-webm")
       bgVideo.style.height = `${window.innerHeight}px`;
     }
+    
     setContainerHeight();
 
     const imageUrls = [
