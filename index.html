@@ -56,7 +56,7 @@
       }
 
       .content {
-        padding: 1rem;
+        padding: 2rem;
         overflow-x: hidden;
       }
 
@@ -69,7 +69,7 @@
         width: 94%;
       }
 
-      .container {
+      .container-bg {
         /* width: 480px; */
         /* height: 100vh; */
         /*width: 100%;
@@ -78,7 +78,7 @@
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
-        background-image: url("./image/bg.gif");
+        /* background-image: url("./image/bg.gif"); */
         position: relative;
         background-size: cover;
         background-repeat: no-repeat;
@@ -451,13 +451,19 @@
     <img class="colorBG" src="./image/bg-water.png" alt="" />
     <!-- <img class="colorBGO" src="" alt="" /> -->
     <div class="maskPart d-none"></div>
-    <div class="container d-flex flex-column">
+    <div class="container-bg d-flex flex-column">
+      <video 
+        id="bg-webm"
+        src="./image/bg.webm" 
+        loop muted autoplay playsinline
+        style="position: absolute; width: 100%"
+      ></video>
       <header class="header">
         <div class="topTxt_p1 d-flex justify-content-center pt-3 page1">
-          <img src="./image/01-p-top.png" alt="" style="width: 40%" />
+          <img src="./image/01-p-top.png" alt="" style="width: 40%;z-index: 1;position: relative;" />
         </div>
         <div class="topTxt_p1 d-none justify-content-center pt-4 pageH2">
-          <img src="./image/02-logo.png" alt="" style="width: 30%" />
+          <img src="./image/02-logo.png" alt="" style="width: 30%;z-index: 1;position: relative;" />
         </div>
       </header>
 
@@ -690,8 +696,10 @@
     const deadColor = "white"; // 死亡的顏色
 
     function setContainerHeight() {
-      const container = document.querySelector(".container");
+      const container = document.querySelector(".container-bg");
       container.style.height = `${window.innerHeight}px`;
+      const bgVideo = document.querySelector("#bg-webm")
+      bgVideo.style.height = `${window.innerHeight}px`;
     }
     setContainerHeight();
 
