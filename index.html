@@ -681,6 +681,8 @@
     }
     setContainerHeight();
 
+    preloadImages(imageUrls);
+
     $(document).ready(function () {
       $(".page1").on("click", function () {
         $(".page1").removeClass("d-flex");
@@ -691,7 +693,6 @@
         $(".page2").addClass("d-flex");
         $(".enterP").removeClass("d-flex");
         $(".enterP").addClass("d-none");
-        preloadImages(imageUrls);
       });
 
       var p2touch = 0;
@@ -750,6 +751,7 @@
       "./image/bg-flower.png",
       "./image/bg-purple.png",
       "./image/bg.png",
+      "./image/bg-circle-final.png"
     ];
 
     function preloadImages(imageUrls) {
