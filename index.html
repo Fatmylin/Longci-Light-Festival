@@ -667,12 +667,13 @@
     let gameStart = false;
     let gameOver = false;
     let interval;
-    let gameSpeed = 300; // 初始遊戲速度
+    let gameSpeed = 250; // 初始遊戲速度
     let isTouching = false;
     let startTouch = false;
 
     // 顏色數組，對應不同的顏色
     const aliveColors = ["blue", "green", "magenta", "red"];
+    const deadColor = "white"; // 死亡的顏色
 
     function setContainerHeight() {
       const container = document.querySelector(".container");
@@ -776,7 +777,6 @@
     // 遊戲邏輯開始
     // 創建棋盤並顯示
     function initGrid() {
-      grid = [];
       const gridElement = document.getElementById("board");
       gridElement.innerHTML = ""; // 清空現有內容
       for (let row = 0; row < size; row++) {
@@ -785,7 +785,7 @@
           const cell = document.createElement("div");
           cell.dataset.row = row;
           cell.dataset.col = col;
-          cell.classList.add("cell");
+          cell.classList.add("cell", "white");
           cell.addEventListener("click", () => toggleCell(row, col));
           cell.addEventListener("touchstart", handleTouchStartII);
           cell.addEventListener("touchmove", handleTouchMoveII);
@@ -793,9 +793,10 @@
           rowArr.push(cell);
           gridElement.appendChild(cell);
         }
-        console.log(rowArr);
+
         grid.push(rowArr);
       }
+      console.log(grid)
     }
 
     // 觸碰畫板
@@ -824,61 +825,42 @@
       const col = parseInt(cell.dataset.col);
       const currentColor = cell.classList[1];
 
-      if (!currentColor) {
+      if (currentColor == deadColor) {
         cell.classList.add(
           aliveColors[Math.floor(Math.random() * aliveColors.length)]
         );
-      } else {
-        const currentIndex = aliveColors.indexOf(currentColor);
-        cell.classList.remove(currentColor);
-        const nextColor = aliveColors[(currentIndex + 1) % aliveColors.length];
-        cell.classList.add(nextColor);
       }
     }
 
-    function getNeighbors(row, col) {
-      const neighbors = [];
-      for (let r = row - 1; r <= row + 1; r++) {
-        for (let c = col - 1; c <= col + 1; c++) {
-          if (
-            r >= 0 &&
-            r < size &&
-            c >= 0 &&
-            c < size &&
-            (r !== row || c !== col)
-          ) {
-            const cell = grid[r][c];
-            const color = cell.classList[1];
-            if (color) neighbors.push(color);
-          }
+    function getNeighbors(x, y) {
+      const deltas = [
+        [-1, -1], [-1, 0], [-1, 1],
+        [0, -1], [0, 1],
+        [1, -1], [1, 0], [1, 1]
+      ];
+      return deltas.map(([dx, dy]) => {
+        const nx = x + dx;
+        const ny = y + dy;
+        if (nx >= 0 && nx < size && ny >= 0 && ny < size) {
+          return grid[ny][nx].classList[1];
         }
-      }
-      return neighbors;
+        return deadColor;
+      });
     }
 
     // 更新棋盤狀態
     function nextGeneration() {
       const newGrid = [];
+      console.log(grid)
       for (let row = 0; row < size; row++) {
         const newRow = [];
         for (let col = 0; col < size; col++) {
-          const neighbors = getNeighbors(row, col);
-          const neighborCount = {};
-
-          // 统计邻居颜色
-          neighbors.forEach((color) => {
-            neighborCount[color] = (neighborCount[color] || 0) + 1;
-          });
-
-          const maxColor = Object.entries(neighborCount).reduce(
-            (max, entry) => (entry[1] > max[1] ? entry : max),
-            ["", 0]
-          )[0];
-
-          if (maxColor) {
-            newRow.push(maxColor);
+          const nextColor = getNextState(row, col)
+          console.log(nextColor)
+          if (nextColor == deadColor) {
+            newRow.push(deadColor);
           } else {
-            newRow.push(null);
+            newRow.push(nextColor);
           }
         }
         newGrid.push(newRow);
@@ -890,15 +872,37 @@
           const cell = grid[row][col];
           const newColor = newGrid[row][col];
           const currentColor = cell.classList[1];
+
           if (newColor) {
             cell.classList.remove(currentColor);
             cell.classList.add(newColor);
-          } else if (currentColor) {
+          } else {
             cell.classList.remove(currentColor);
           }
         }
       }
     }
+
+  function getNextState(x, y) {
+    const neighbors = getNeighbors(x, y);
+    const aliveNeighbors = neighbors.filter(color => aliveColors.includes(color));
+    const currentColor = grid[y][x].classList[1]
+
+    if (currentColor !== deadColor) {
+      // 存活細胞：2 或 3 個相鄰存活細胞繼續存活
+      return aliveNeighbors.length === 2 || aliveNeighbors.length === 3 ? currentColor : deadColor;
+    } else {
+      // 死亡細胞：3 個相鄰存活細胞則重生
+      if (aliveNeighbors.length === 3) {
+        const colorCounts = aliveNeighbors.reduce((counts, color) => {
+          counts[color] = (counts[color] || 0) + 1;
+          return counts;
+        }, {});
+        return Object.keys(colorCounts).reduce((a, b) => (colorCounts[a] > colorCounts[b] ? a : b));
+      }
+      return deadColor;
+    }
+  }
 
     function moveCircleUp() {
       $(".sendTxt").hide();
@@ -1047,7 +1051,7 @@
       let maxCount = 0;
 
       for (let key in frequencyMap) {
-        if (frequencyMap[key] > maxCount) {
+        if (frequencyMap[key] > maxCount && key !== deadColor) {
           maxCount = frequencyMap[key];
           mostFrequentString = key;
         }
@@ -1070,6 +1074,8 @@
           aliveColors.forEach((color) => {
             if (cell.classList.contains(color)) {
               colors.push(color);
+            } else {
+              colors.push(deadColor);
             }
           });
         }
