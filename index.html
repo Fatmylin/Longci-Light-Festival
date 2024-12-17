@@ -350,6 +350,10 @@
           /* 第三层光晕 */ 0 0 20px rgba(255, 255, 255, 0.3);
         font-size: small;
       }
+
+      .op-0 {
+        opacity: 0;
+      }
     </style>
   </head>
   <body>
@@ -467,9 +471,85 @@
         </div>
       </header>
 
+      <main class="page3 content d-none justify-content-center align-items-center flex-grow-1 flex-column"
+        style="overflow: hidden">
+        <div class="mainCon d-flex justify-content-center position-relative flex-column w-100 align-items-center"
+          style="transform: translateY(100%)">
+          <img src="./image/08-h1.png" alt="" style="width: 90%" class="mb-3" />
+          <!-- <img
+                  src="./image/08-h2.png"
+                  alt=""
+                  style="width: 50%; transform: translateY(15%)"
+                /> -->
+          <div class="endTxt d-flex flex-column align-items-center text-white"
+            style="font-family: SweiSpringCJKtc-SemiBold, sans-serif">
+            <p>請看向前方</p>
+            <p>山岳已悄然承載你的印記</p>
+            <p>生命的漣漪正隨光影綻放</p>
+          </div>
+        </div>
+        <div class="reSet d-flex justify-content-center">
+          <div class="ripples" style="
+                    position: relative;
+                    width: 450px;
+                    height: 450px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    bottom: -20%;
+                  ">
+            <img src="./image/end-btn-bg-05.png" alt="" style="width: 22%; bottom: 43.5%" class="position-absolute" />
+            <img src="./image/end-btn-bg-02.png" alt="" style="width: 60%; transform-origin: center center"
+              class="position-absolute ripple1" />
+            <img src="./image/end-btn-bg-02.png" alt="" style="width: 60%; transform-origin: center center"
+              class="position-absolute ripple2" />
+            <img src="./image/end-btn-bg-02.png" alt="" style="width: 60%; transform-origin: center center"
+              class="position-absolute ripple3" />
+          </div>
+        </div>
+      </main>
+
+
+      <main class="page2 content op-0 justify-content-center align-items-center flex-grow-1 flex-column">
+        <div class="mainCon d-flex justify-content-center position-relative align-items-center">
+          <img src="./image/02-Rectangle-02.png" alt="" style="width: 108%; position: absolute" class="04circle c041" />
+          <img src="./image/02-Rectangle-02.png" alt="" style="width: 125%; position: absolute" class="04circle c042" />
+          <!-- <img
+                  src="./image/02-bg-circle.gif"
+                  alt=""
+                  style="
+                    width: 100%;
+                    border-radius: 100%;
+                    overflow: hidden;
+                    object-fit: fill;
+                    box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2);
+                  "
+                /> -->
+          <video src="./image/02-bg-circle.webm" style="
+                    width: 100%;
+                    border-radius: 100%;
+                    overflow: hidden;
+                    object-fit: fill;
+                    box-shadow: 0px 0px 28px rgba(255, 255, 255, 1.2);
+                  " loop muted autoplay playsinline></video>
+          <div class="txtCon txtCon1 position-absolute top-50 start-50 w-100" style="transform: translate(-40%, -55%)">
+            <img src="./image/02-p-01.png" alt="" style="width: 80%" />
+            <img src="./image/02-p-02.png" alt="" style="width: 80%" class="mt-4" />
+          </div>
+          <div class="txtCon txtCon2 position-absolute top-50 start-50 w-100"
+            style="transform: translate(-40%, -55%); display: none">
+            <img src="./image/03-p-03.png" alt="" style="width: 80%" />
+            <img src="./image/04-p-04.png" alt="" style="width: 80%" class="mt-4" />
+          </div>
+        </div>
+        <div class="nextTip position-absolute d-flex justify-content-center" style="bottom: 8%">
+          <img src="./image/02-info-TouchScreen.png" alt="" style="width: 75%; transform: translateY(5%)" />
+        </div>
+      </main>
+
       <main
         class="page1 content d-flex justify-content-center align-items-center flex-grow-1 flex-column"
-        style="overflow: hidden"
+        style="overflow: hidden;position: absolute; width: 100%; height: 100%;"
       >
         <div
           class="mainCon d-flex justify-content-center flex-column align-items-center"
@@ -517,150 +597,6 @@
                 class="position-absolute ripple3"
               />
             </div>
-          </div>
-        </div>
-      </main>
-
-      <main
-        class="page2 content d-none justify-content-center align-items-center flex-grow-1 flex-column"
-      >
-        <div
-          class="mainCon d-flex justify-content-center position-relative align-items-center"
-        >
-          <img
-            src="./image/02-Rectangle-02.png"
-            alt=""
-            style="width: 108%; position: absolute"
-            class="04circle c041"
-          />
-          <img
-            src="./image/02-Rectangle-02.png"
-            alt=""
-            style="width: 125%; position: absolute"
-            class="04circle c042"
-          />
-          <!-- <img
-            src="./image/02-bg-circle.gif"
-            alt=""
-            style="
-              width: 100%;
-              border-radius: 100%;
-              overflow: hidden;
-              object-fit: fill;
-              box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2);
-            "
-          /> -->
-          <video 
-            src="./image/02-bg-circle.webm"
-            style="
-              width: 100%;
-              border-radius: 100%;
-              overflow: hidden;
-              object-fit: fill;
-              box-shadow: 0px 0px 28px rgba(0, 0, 0, 1.2);
-            "
-            loop
-            muted
-            autoplay
-            playsinline
-          ></video>
-          <div
-            class="txtCon txtCon1 position-absolute top-50 start-50 w-100"
-            style="transform: translate(-40%, -55%)"
-          >
-            <img src="./image/02-p-01.png" alt="" style="width: 80%" />
-            <img
-              src="./image/02-p-02.png"
-              alt=""
-              style="width: 80%"
-              class="mt-4"
-            />
-          </div>
-          <div
-            class="txtCon txtCon2 position-absolute top-50 start-50 w-100"
-            style="transform: translate(-40%, -55%); display: none"
-          >
-            <img src="./image/03-p-03.png" alt="" style="width: 80%" />
-            <img
-              src="./image/04-p-04.png"
-              alt=""
-              style="width: 80%"
-              class="mt-4"
-            />
-          </div>
-        </div>
-        <div
-          class="nextTip position-absolute d-flex justify-content-center"
-          style="bottom: 8%"
-        >
-          <img
-            src="./image/02-info-TouchScreen.png"
-            alt=""
-            style="width: 75%; transform: translateY(5%)"
-          />
-        </div>
-      </main>
-
-      <main
-        class="page3 content d-none justify-content-center align-items-center flex-grow-1 flex-column"
-        style="overflow: hidden"
-      >
-        <div
-          class="mainCon d-flex justify-content-center position-relative flex-column w-100 align-items-center"
-          style="transform: translateY(100%)"
-        >
-          <img src="./image/08-h1.png" alt="" style="width: 90%" class="mb-3" />
-          <!-- <img
-            src="./image/08-h2.png"
-            alt=""
-            style="width: 50%; transform: translateY(15%)"
-          /> -->
-          <div
-            class="endTxt d-flex flex-column align-items-center text-white"
-            style="font-family: SweiSpringCJKtc-SemiBold, sans-serif"
-          >
-            <p>請看向前方</p>
-            <p>山岳已悄然承載你的印記</p>
-            <p>生命的漣漪正隨光影綻放</p>
-          </div>
-        </div>
-        <div class="reSet d-flex justify-content-center">
-          <div
-            class="ripples"
-            style="
-              position: relative;
-              width: 450px;
-              height: 450px;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              bottom: -20%;
-            "
-          >
-            <img
-              src="./image/end-btn-bg-05.png"
-              alt=""
-              style="width: 22%; bottom: 43.5%"
-              class="position-absolute"
-            />
-            <img
-              src="./image/end-btn-bg-02.png"
-              alt=""
-              style="width: 60%; transform-origin: center center"
-              class="position-absolute ripple1"
-            />
-            <img
-              src="./image/end-btn-bg-02.png"
-              alt=""
-              style="width: 60%; transform-origin: center center"
-              class="position-absolute ripple2"
-            />
-            <img
-              src="./image/end-btn-bg-02.png"
-              alt=""
-              style="width: 60%; transform-origin: center center"
-              class="position-absolute ripple3"
-            />
           </div>
         </div>
       </main>
@@ -726,6 +662,7 @@
         $(".pageH2").removeClass("d-none");
         $(".pageH2").addClass("d-flex");
         $(".page2").removeClass("d-none");
+        $(".page2").removeClass("op-0");
         $(".page2").addClass("d-flex");
         $(".enterP").removeClass("d-flex");
         $(".enterP").addClass("d-none");
