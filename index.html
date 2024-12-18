@@ -706,7 +706,7 @@
     let gameStart = false;
     let gameOver = false;
     let interval;
-    let gameSpeed = 2500; // 初始遊戲速度
+    let gameSpeed = 250; // 初始遊戲速度
     let isTouching = false;
     let startTouch = false;
 
@@ -1011,7 +1011,7 @@
       let countdown = 10;
       const countdownInterval = setInterval(function () {
         $(".countNum").text(countdown);
-        // countdown--;
+        countdown--;
         if (countdown < 0) {
           clearInterval(countdownInterval);
           $(".04info").hide();
