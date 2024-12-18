@@ -458,14 +458,14 @@
     <div class="container-bg d-flex flex-column">
       <video
         id="bg-webm"
-        src="./image/bg.webm"
         loop
         muted
         autoplay
         playsinline
         style="position: absolute; width: 100%"
-        type="video/webm"
-      ></video>
+      >
+        <source src="./image/bg.webm" type="video/webm">
+      </video>
       <header class="header">
         <div class="topTxt_p1 d-flex justify-content-center pt-3 page1">
           <img
@@ -577,7 +577,6 @@
                   "
                 /> -->
           <video
-            src="./image/02-bg-circle.webm"
             style="
               width: 95%;
               border-radius: 100%;
@@ -589,8 +588,9 @@
             muted
             autoplay
             playsinline
-            type="video/webm"
-          ></video>
+          >
+            <source src="./image/02-bg-circle.webm" type="video/webm">
+          </video>
           <div
             class="txtCon txtCon1 position-absolute top-50 start-50 w-100"
             style="transform: translate(-40%, -55%)"
