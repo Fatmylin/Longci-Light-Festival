@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1"
     />
     <!-- <link href="./font/stylesheet.css" rel="stylesheet" type="text/css" /> -->
     <link
@@ -53,6 +53,7 @@
         background-size: cover;
         background-repeat: no-repeat;
         background-position-y: bottom;
+        touch-action: manipulation; /* Allows tap events but prevents double-tap zoom */
       }
 
       .content {
@@ -778,6 +779,8 @@
         }
       });
       $(".reSet").on("click", function () {
+        const cover = document.getElementById("loading-cover");
+        cover.classList.remove("hidden");
         location.reload(); // 重新加载页面
       });
     });
