@@ -836,7 +836,6 @@
           cell.dataset.row = row;
           cell.dataset.col = col;
           cell.classList.add("cell", "white");
-          cell.addEventListener("click", () => toggleCell(row, col));
           cell.addEventListener("touchstart", handleTouchStartII);
           cell.addEventListener("touchmove", handleTouchMoveII);
           cell.addEventListener("touchend", handleTouchEnd);
@@ -874,11 +873,13 @@
       const row = parseInt(cell.dataset.row);
       const col = parseInt(cell.dataset.col);
       const currentColor = cell.classList[1];
-
+      console.log("cell", cell)
       if (currentColor == deadColor) {
+        console.log(1)
         cell.classList.add(
           aliveColors[Math.floor(Math.random() * aliveColors.length)]
         );
+        cell.classList.remove(deadColor);
       }
     }
 
@@ -906,12 +907,11 @@
     // 更新棋盤狀態
     function nextGeneration() {
       const newGrid = [];
-      console.log(grid);
       for (let row = 0; row < size; row++) {
         const newRow = [];
         for (let col = 0; col < size; col++) {
           const nextColor = getNextState(row, col);
-          console.log(nextColor);
+
           if (nextColor == deadColor) {
             newRow.push(deadColor);
           } else {
@@ -1008,10 +1008,8 @@
       startTouch = true;
       let countdown = 10;
       const countdownInterval = setInterval(function () {
-        console.log(countdown);
         $(".countNum").text(countdown);
         countdown--;
-        console.log(countdown);
         if (countdown < 0) {
           clearInterval(countdownInterval);
           $(".04info").hide();
@@ -1132,13 +1130,8 @@
           const cell = document.querySelector(
             `[data-row="${r}"][data-col="${c}"]`
           );
-          aliveColors.forEach((color) => {
-            if (cell.classList.contains(color)) {
-              colors.push(color);
-            } else {
-              colors.push(deadColor);
-            }
-          });
+          let cellColor = cell.classList[1];
+          colors.push(cellColor);
         }
       }
       return colors;
