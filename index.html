@@ -66,7 +66,7 @@
         /* margin-top: 2rem; */
         bottom: 5px;
         position: absolute;
-        width: 94%;
+        width: 100%;
       }
 
       .container-bg {
@@ -101,7 +101,7 @@
       }
 
       .gameCon {
-        transform: translate(-50%, -50%) scale(0.6);
+        transform: translate(-50%, -45%) scale(0.6);
         top: 50%;
         left: 50%;
         transition: transform 0.5s ease-in-out;
@@ -462,10 +462,10 @@
         muted
         autoplay
         playsinline
-        style="position: absolute; width: 100%; object-fit: cover;"
+        style="position: absolute; width: 100%; object-fit: cover"
       >
-        <source src="./image/bg.webm" type="video/webm">
-        <source src="./image/bg.mp4" type="video/mp4">
+        <source src="./image/bg.webm" type="video/webm" />
+        <source src="./image/bg.mp4" type="video/mp4" />
       </video>
       <header class="header">
         <div class="topTxt_p1 d-flex justify-content-center pt-3 page1">
@@ -523,7 +523,7 @@
             <img
               src="./image/end-btn-bg-05.png"
               alt=""
-              style="width: 22%; bottom: 43.5%"
+              style="width: 32%; bottom: 38.5%"
               class="position-absolute"
             />
             <img
@@ -590,8 +590,8 @@
             autoplay
             playsinline
           >
-            <source src="./image/02-bg-circle.webm" type="video/webm">
-            <source src="./image/02-bg-circle.mp4" type="video/mp4">
+            <source src="./image/02-bg-circle.webm" type="video/webm" />
+            <source src="./image/02-bg-circle.mp4" type="video/mp4" />
           </video>
           <div
             class="txtCon txtCon1 position-absolute top-50 start-50 w-100"
@@ -658,7 +658,7 @@
               <img
                 src="./image/start-btn-bg-05.png"
                 alt=""
-                style="width: 25%; bottom: 43%"
+                style="width: 35%; bottom: 38%"
                 class="position-absolute"
               />
               <img
@@ -740,7 +740,7 @@
       "./image/pic-cell-green.png",
       "./image/pic-cell-red.png",
       "./image/pic-cell-blue.png",
-      "./image/04-pic-ScreenMask.png"
+      "./image/04-pic-ScreenMask.png",
     ];
 
     preloadImages(imageUrls);
@@ -923,8 +923,8 @@
         newGrid.push(newRow);
       }
 
-      console.log(grid)
-      console.log(newGrid)
+      console.log(grid);
+      console.log(newGrid);
 
       // 更新网格
       for (let row = 0; row < size; row++) {
@@ -1038,6 +1038,10 @@
             });
             $(".04circle").hide();
             $(".container-bg").css("filter", " brightness(25%) blur(1px)");
+            $(".gameCon").css(
+              "transform",
+              "transform: translate(-50%, -50%) scale(0.6);"
+            );
             enableSwipeDetection();
           }, 5000);
         }
