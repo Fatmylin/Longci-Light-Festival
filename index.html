@@ -778,6 +778,8 @@
         }
       });
       $(".reSet").on("click", function () {
+        const cover = document.getElementById("loading-cover");
+        cover.classList.remove("hidden");
         location.reload(); // 重新加载页面
       });
     });
