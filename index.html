@@ -1011,7 +1011,7 @@
       let countdown = 10;
       const countdownInterval = setInterval(function () {
         $(".countNum").text(countdown);
-        // countdown--;
+        countdown--;
         if (countdown < 0) {
           clearInterval(countdownInterval);
           $(".04info").hide();
