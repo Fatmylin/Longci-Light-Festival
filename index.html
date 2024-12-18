@@ -840,11 +840,11 @@
           const cell = document.createElement("div");
           cell.dataset.row = row;
           cell.dataset.col = col;
-          cell.classList.add("cell", "white");
+          cell.classList.add("cell", deadColor);
           cell.addEventListener("touchstart", handleTouchStartII);
           cell.addEventListener("touchmove", handleTouchMoveII);
           cell.addEventListener("touchend", handleTouchEnd);
-          rowArr.push(cell);
+          rowArr.push(deadColor);
           gridElement.appendChild(cell);
         }
 
@@ -867,9 +867,7 @@
       if (!isTouching || gameStart || gameOver) return;
       const touch = event.touches[0];
       const element = document.elementFromPoint(touch.clientX, touch.clientY);
-      if (element && element.classList.contains("cell")) {
-        toggleCell(element);
-      }
+      toggleCell(element);
     }
 
     // 改變細胞狀態
@@ -877,11 +875,14 @@
       const row = parseInt(cell.dataset.row);
       const col = parseInt(cell.dataset.col);
       const currentColor = cell.classList[1];
+
       if (currentColor == deadColor) {
-        cell.classList.add(
-          aliveColors[Math.floor(Math.random() * aliveColors.length)]
-        );
+        console.log("toggling");
+        const toggleColor =
+          aliveColors[Math.floor(Math.random() * aliveColors.length)];
+        cell.classList.add(toggleColor);
         cell.classList.remove(deadColor);
+        grid[row][col] = toggleColor;
       }
     }
 
@@ -900,7 +901,7 @@
         const nx = x + dx;
         const ny = y + dy;
         if (nx >= 0 && nx < size && ny >= 0 && ny < size) {
-          return grid[ny][nx].classList[1];
+          return grid[nx][ny];
         }
         return deadColor;
       });
@@ -913,7 +914,6 @@
         const newRow = [];
         for (let col = 0; col < size; col++) {
           const nextColor = getNextState(row, col);
-
           if (nextColor == deadColor) {
             newRow.push(deadColor);
           } else {
@@ -923,21 +923,23 @@
         newGrid.push(newRow);
       }
 
-      console.log(grid);
-      console.log(newGrid);
-
-      // 更新网格
-      for (let row = 0; row < size; row++) {
-        for (let col = 0; col < size; col++) {
-          const cell = grid[row][col];
-          const newColor = newGrid[row][col];
+      grid = newGrid;
+      grid.forEach((row, y) => {
+        row.forEach((color, x) => {
+          const cell = document.querySelector(
+            `[data-row="${y}"][data-col="${x}"]`
+          );
           const currentColor = cell.classList[1];
-          if (newColor !== currentColor) {
+
+          if (color !== deadColor) {
             cell.classList.remove(currentColor);
-            cell.classList.add(newColor);
+            cell.classList.add(color);
+          } else {
+            cell.classList.remove(currentColor);
+            cell.classList.add(deadColor);
           }
-        }
-      }
+        });
+      });
     }
 
     function getNextState(x, y) {
@@ -945,12 +947,10 @@
       const aliveNeighbors = neighbors.filter((color) =>
         aliveColors.includes(color)
       );
-      const currentColor = grid[y][x].classList[1];
-
-      if (currentColor !== deadColor) {
+      if (grid[x][y] !== deadColor) {
         // 存活細胞：2 或 3 個相鄰存活細胞繼續存活
         return aliveNeighbors.length === 2 || aliveNeighbors.length === 3
-          ? currentColor
+          ? grid[x][y]
           : deadColor;
       } else {
         // 死亡細胞：3 個相鄰存活細胞則重生
@@ -1011,7 +1011,7 @@
       let countdown = 10;
       const countdownInterval = setInterval(function () {
         $(".countNum").text(countdown);
-        countdown--;
+        // countdown--;
         if (countdown < 0) {
           clearInterval(countdownInterval);
           $(".04info").hide();
@@ -1075,7 +1075,6 @@
       console.log("end");
       clearInterval(interval); // 停止遊戲
       const result = findMostFrequentString(allCellColors());
-      console.log(result);
       const boardShadow = document.getElementById("boardShadow");
       if (result == "red") {
         document.querySelector(".colorBG").src = "./image/bg-fire.png";
