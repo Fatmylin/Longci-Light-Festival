@@ -845,7 +845,6 @@
 
         grid.push(rowArr);
       }
-      console.log(grid);
     }
 
     // 觸碰畫板
@@ -873,9 +872,7 @@
       const row = parseInt(cell.dataset.row);
       const col = parseInt(cell.dataset.col);
       const currentColor = cell.classList[1];
-      console.log("cell", cell)
       if (currentColor == deadColor) {
-        console.log(1)
         cell.classList.add(
           aliveColors[Math.floor(Math.random() * aliveColors.length)]
         );
@@ -927,12 +924,9 @@
           const cell = grid[row][col];
           const newColor = newGrid[row][col];
           const currentColor = cell.classList[1];
-
-          if (newColor) {
+          if (newColor !== currentColor) {
             cell.classList.remove(currentColor);
             cell.classList.add(newColor);
-          } else {
-            cell.classList.remove(currentColor);
           }
         }
       }
@@ -943,10 +937,11 @@
       const aliveNeighbors = neighbors.filter((color) =>
         aliveColors.includes(color)
       );
-      const currentColor = grid[y][x].classList[1];
+      const currentColor = grid[x][y].classList[1];
 
       if (currentColor !== deadColor) {
         // 存活細胞：2 或 3 個相鄰存活細胞繼續存活
+        console.log(aliveNeighbors.length)
         return aliveNeighbors.length === 2 || aliveNeighbors.length === 3
           ? currentColor
           : deadColor;
