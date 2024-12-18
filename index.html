@@ -464,7 +464,7 @@
         playsinline
         style="position: absolute; width: 100%; object-fit: cover;"
       >
-        <source src="/image/bg.webm" type="video/webm">
+        <source src="./image/bg.webm" type="video/webm">
         <source src="./image/bg.mp4" type="video/mp4">
       </video>
       <header class="header">
@@ -706,7 +706,7 @@
     let gameStart = false;
     let gameOver = false;
     let interval;
-    let gameSpeed = 250; // 初始遊戲速度
+    let gameSpeed = 2500; // 初始遊戲速度
     let isTouching = false;
     let startTouch = false;
 
@@ -923,6 +923,9 @@
         newGrid.push(newRow);
       }
 
+      console.log(grid)
+      console.log(newGrid)
+
       // 更新网格
       for (let row = 0; row < size; row++) {
         for (let col = 0; col < size; col++) {
@@ -942,11 +945,10 @@
       const aliveNeighbors = neighbors.filter((color) =>
         aliveColors.includes(color)
       );
-      const currentColor = grid[x][y].classList[1];
+      const currentColor = grid[y][x].classList[1];
 
       if (currentColor !== deadColor) {
         // 存活細胞：2 或 3 個相鄰存活細胞繼續存活
-        console.log(aliveNeighbors.length)
         return aliveNeighbors.length === 2 || aliveNeighbors.length === 3
           ? currentColor
           : deadColor;
@@ -1009,7 +1011,7 @@
       let countdown = 10;
       const countdownInterval = setInterval(function () {
         $(".countNum").text(countdown);
-        countdown--;
+        // countdown--;
         if (countdown < 0) {
           clearInterval(countdownInterval);
           $(".04info").hide();
